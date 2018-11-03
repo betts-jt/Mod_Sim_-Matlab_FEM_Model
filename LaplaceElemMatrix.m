@@ -1,4 +1,4 @@
-function [mesh] = LaplaceElemMatrix(D, En, Mesh)
+function [mesh] = LaplaceElemMatrix(D, eID, msh)
 %This fuction calculates the local 2-by-2 element matrix for the diffusion 
 %operator, which can calculate this matrix for an arbitrary element eN 
 %defined between the points x0 and x1
