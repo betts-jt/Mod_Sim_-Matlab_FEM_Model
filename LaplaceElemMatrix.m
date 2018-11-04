@@ -7,7 +7,7 @@ function [mesh] = LaplaceElemMatrix(D, eID, msh)
     %%OneDimLinearMeshGen. From this mesh each elements Jacobian and the
     %%nodal posisions x0 and x1 can be accesed.
 
-% Run this Mesh = OneDimLinearMeshGen(0,1,3); to generate test mesh
+% Run this msh = OneDimLinearMeshGen(0,1,3); to generate test mesh
 
 
     
