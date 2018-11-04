@@ -3,7 +3,7 @@ function [] = PathAdd()
 % code in these to be ran from the main folder
 
 addpath('Lib');
-addapth('Code');
+addpath('Code');
 
 end
 
