@@ -1,4 +1,4 @@
-function [outputArg1,outputArg2] = Part1a(inputArg1,inputArg2)
+function [results] = Part1a(inputArg1,inputArg2)
 %This fuction runs the nessusary codes to complete part 1a of the
 %coursework sheet. This can be found in the documents folder.
 
