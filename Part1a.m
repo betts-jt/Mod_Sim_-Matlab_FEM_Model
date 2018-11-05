@@ -8,7 +8,7 @@ PathAdd(); % Run the funciton that adds all the nessusary folders to the path
 results = runtests('CourseworkOneUnitTest'); % This line runs the test designed to check LaplaceElemMatrix runs correctly
 
 % Part 1a of the course work is completes if all the tests in the above
-% core run successfully and withoug fault.
+% code run successfully and withoug fault.
 
 % CHECK THAT ALL TESTS WERE PASSED
 if results(1).Passed == 1 && results(2).Passed == 1 && results(3).Passed==1
