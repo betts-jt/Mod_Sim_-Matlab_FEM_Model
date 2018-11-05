@@ -1,4 +1,4 @@
-function [Global_Mat] = GlobalElementGen(xmin, xmax, Ne, D, llambda, reactionNeeded)
+function [Global_Mat] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded)
 % Given the relevent input paramenters this cod ewill generate the local
 % element matracies for each element and combign these to form the global
 % element matrix for both the diffution operator and the reaction operator
@@ -11,6 +11,7 @@ function [Global_Mat] = GlobalElementGen(xmin, xmax, Ne, D, llambda, reactionNee
 %       for diffution.
 %   llambda = Scalar coefficient used when generating the lcoal element
 %             matracies for reaciton operator.
+%   f = spacial coefficient for calculating the source term
 %   ReactionNeeded = This is either 1 is the global element matrix for the
 %                   reaction operator needs to be generatod or 0 if it does not need to be
 %                   gerenated.
@@ -20,7 +21,7 @@ msh = OneDimLinearMeshGen(xmin,xmax,Ne); % Generate the mesh
 % GENERATE LOCAL ELEMENT MATRACIERS FOR ALL ELEMENTS
 for i = 1:Ne
     Diffusion(i).Local = LaplaceElemMatrix(D, i, msh); % Generate the local element diffution matrix for element i
-    
+    Source(i).Local = LocalElementVec_Source(f, i, msh); % Generate the local element source vector for element i
     if reactionNeeded == 1 % Check if the reaction matrix is required
         Reaction(i).Local = LocalElementMat_Reaction(llambda, i, msh); % Generate the local element reaction matrix for element i
         Overall(i).Local = Diffusion(i).Local - Reaction(i).Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
@@ -30,13 +31,11 @@ for i = 1:Ne
 end
 
 Global_Mat = zeros(Ne+1); % Generate blank global matrix for population.
+SourceGlobal_Vec = zeros(Ne+1,1); % Generate blank global source vector for population.
 
-% GENREATE THE GLOBAL MATRIX
+% GENREATE THE GLOBAL MATRIX AND GLOBAL SOURCE VECTOR
 for i = 1:Ne
-    Global_Mat(i:i+1,i:i+1) =  Global_Mat(i:i+1,i:i+1)+Overall(i).Local;
-end
-
-4
-
+    Global_Mat(i:i+1,i:i+1) =  Global_Mat(i:i+1,i:i+1)+Overall(i).Local; % Form the global matrix by adding the local elements to the previous loops global element matrix. This correctly sums the overlapping values on the diagonal.
+    SourceGlobal_Vec(i:i+1) = SourceGlobal_Vec(i:i+1) + Source(i).Local'; % Form the global source vector by adding the local elements to the previous loops global source vector. This correctly sums the overlapping values.
 end
 
