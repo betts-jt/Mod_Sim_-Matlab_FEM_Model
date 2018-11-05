@@ -1,5 +1,5 @@
 function [] = Part1c_SourceVecTest()
-%This fuction runs the nessusary codes cehck that the local source vector
+%This fuction runs the nessusary codes check that the local source vector
 %generator used in part 1c of the coursework runs correctly.
 
 PathAdd(); % Run the funciton that adds all the nessusary folders to the path
