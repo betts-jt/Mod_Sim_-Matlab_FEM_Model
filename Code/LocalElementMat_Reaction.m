@@ -9,6 +9,11 @@ function [LocalElementMat_Reaction] = LocalElementMat_Reaction(llambda, eID, msh
 
 % Run this msh = OneDimLinearMeshGen(0,1,3); to generate test mesh
 
+J = msh.elem(eID).J; % rawing in the Jacobian of the element ebing analysed
 
+Int00 = llambda*J*2/3; % Calculate the value of Int00/Int11. See courseworw assignment, part 1b, for derrivation of this short hand integral.
+Int01 = llambda*J*1/3; % Calculate the value of Int01/Int10. See courseworw assignment, part 1b, for derrivation of this short hand integral.
+
+LocalElementMat_Reaction = [Int00 Int01; Int01 Int00]; % Generate the local element reaction matrix
 end
 
