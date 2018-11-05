@@ -1,6 +1,6 @@
 function [] = Part1c_SourceVecTest()
-%This fuction runs the nessusary codes to complete part 1b of the
-%coursework sheet. This can be found in the documents folder.
+%This fuction runs the nessusary codes cehck that the local source vector
+%generator used in part 1c of the coursework runs correctly.
 
 PathAdd(); % Run the funciton that adds all the nessusary folders to the path
 
@@ -12,7 +12,7 @@ results = runtests('Part1cUnitTest_LocalSourceVector'); % This line runs the tes
 
 % CHECK THAT ALL TESTS WERE PASSES
 if results(1).Passed == 1 && results(2).Passed == 1
-    disp('All tests passed. Part 1c complete') % If all were compelte display this
+    disp('All tests passed. LocalElementVec_Source runs correctly') % If all were compelte display this
 else
     error('not all tests in "Part1cUnitTest_LocalSourceVector" were passed. edit LocalElementVec_Source and try again') % If not all tests were complete give an error
 
