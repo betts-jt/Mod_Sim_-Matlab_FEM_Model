@@ -1,4 +1,4 @@
-function [c] = FEM_BC(BC1T,BC1V,BC2T,BC2V)
+function [c] = FEM_BC(BC1T,BC1V,BC2T,BC2V, Data)
 % This code applies the FEM method and solved for a give set of boundary
 % conditions.
 %   Where;
@@ -16,7 +16,7 @@ function [c] = FEM_BC(BC1T,BC1V,BC2T,BC2V)
 %   the direct value of Clast in the case of a Dirichlet boundary condition or
 %   the value of D(dc/dx) in the case of a Neumann boundary condition.
 
-Data = ProblemData(); % Runs function which generates the data structure for the project
+%Data = ProblemData(); % Runs function which generates the data structure for the project
 
 [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(Data.xmin, Data.xmax, Data.Ne, Data.D, Data.llambda, Data.f, Data.reactionNeeded); % Run the code that generated the Global Matrix and Source vector afor a given set of input variables.
 
