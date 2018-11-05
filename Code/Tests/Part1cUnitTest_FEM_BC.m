@@ -18,9 +18,9 @@ BC1V = 0;
 BC2T = 1; % Dirichlet BC
 BC2V = 1;
 
-c1 = FEM_BC(BC1T,BC1V,BC2T,BC2V, Data)
+c1 = FEM_BC(BC1T,BC1V,BC2T,BC2V, Data);
 
-c2 = [0 1/3 2/3 1]'
+c2 = [0 1/3 2/3 1]';
 
 assert(abs(c1(1)-c2(1)) <=tol)
 assert(abs(c1(2)-c2(2)) <=tol)
