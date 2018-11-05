@@ -4,6 +4,7 @@ function [] = PathAdd()
 
 addpath('Lib');
 addpath('Code');
+addpath('Code/Tests');
 
 end
 
