@@ -5,7 +5,7 @@ function [] = Part1b()
 PathAdd(); % Run the funciton that adds all the nessusary folders to the path
 
 % RUN TESTS TO ENSURE LocalElementMat_Reaction FUNCTIONS CORRECTLY
-results = runtests('Part1bUnitTest.m'); % This line runs the test designed to check LaplaceElemMatrix runs correctly
+results = runtests('Part1bUnitTest.m'); % This line runs the test designed to check LocalElementMat_Reaction runs correctly
 
 % Part 1b of the course work is completes if all the tests in the above
 % code run successfully and withoug fault.
