@@ -14,7 +14,7 @@ results = runtests('Part1bUnitTest.m'); % This line runs the test designed to ch
 if results(1).Passed == 1 && results(2).Passed == 1 && results(3).Passed==1 && results(4).Passed==1
     disp('All tests passed. Part 1b complete') % If all were compelte display this
 else
-    error('not all tests in "Part1bUnitTest" were passed. edit LaplaceElemMatrix.m and try again') % If not all tests were complete give an error
+    error('not all tests in "Part1bUnitTest" were passed. edit Part1bUnitTest.m and try again') % If not all tests were complete give an error
 
 end
 
