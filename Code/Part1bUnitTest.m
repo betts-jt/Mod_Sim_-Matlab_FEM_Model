@@ -51,5 +51,5 @@ msh = OneDimLinearMeshGen(0,1,3);
 
 elemat = LocalElementMat_Reaction(lambda,eID,msh);
 
-assert(abs(elemat(1) - 2*elemat(3) <= tol))
-assert(abs(elemat(4) - 2*elemat(2) <= tol))
+assert(elemat(1) == 2*elemat(3))
+assert(elemat(4) == 2*elemat(2))
