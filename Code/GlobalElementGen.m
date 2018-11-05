@@ -1,4 +1,4 @@
-function [Global_Mat] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded)
+function [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded)
 % Given the relevent input paramenters this cod ewill generate the local
 % element matracies for each element and combign these to form the global
 % element matrix for both the diffution operator and the reaction operator
