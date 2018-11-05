@@ -7,7 +7,7 @@ PathAdd(); % Run the funciton that adds all the nessusary folders to the path
 % RUN TESTS TO ENSURE LAPLACEELEMENTMATRIX FUNCTIONS CORRECTLY
 results = runtests('CourseworkOneUnitTest'); % This line runs the test designed to check LaplaceElemMatrix runs correctly
 
-% Part 1a fo the course work is completes if all the tests in the above
+% Part 1a of the course work is completes if all the tests in the above
 % core run successfully and withoug fault.
 
 % CHECK THAT £ TESTS WERE COMPLETE
