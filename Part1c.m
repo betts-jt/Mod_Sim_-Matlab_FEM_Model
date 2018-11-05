@@ -20,7 +20,7 @@ C1_FEM = FEM_BC(1,2,1,0, Data); % Run FEM_BC for the laplace equation with 2 Dir
 
 figure(1)
 hold on
-plot(x,C1_FEM)
+plot(x,C1_FEM,'o-')
 title('FEM - 2 Dirichlet')
 xlabel('x')
 ylabel('C')
@@ -28,7 +28,7 @@ ylabel('C')
 C1_Ana = 2*(1-x);
 figure(2)
 hold on
-plot(x,C1_FEM, 'r')
+plot(x,C1_FEM,'o-')
 title('Analytical')
 xlabel('x')
 ylabel('C')
@@ -37,9 +37,19 @@ ylabel('C')
 C2_FEM = FEM_BC(2,2,1,0, Data); % Run FEM_BC for the laplace equation with 2 Dirichlet BC as in 1c part 1
 figure(3)
 hold on
-plot(x,C2_FEM)
+plot(x,C2_FEM, 'o-')
 title('FEM- 1 Dirichlet, 1 Neumann')
 xlabel('x')
 ylabel('C')
+
+%% Plot both set of boundaries on one graph
+figure(4)
+hold on
+plot(x,C2_FEM,'bo-', x, C1_FEM, 'ro-')
+title('FEM - Comparrison of dirrerent boundary conditions')
+legend('2 Dirichlet boundary conditions','1 Dirichlet and 1 Neumann boundary condition','Location', 'southeast')
+xlabel('x')
+ylabel('C')
+
 end
 
