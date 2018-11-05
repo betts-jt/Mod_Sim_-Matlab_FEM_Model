@@ -24,32 +24,35 @@ Data.Ne = 3; % Numeber of elements in the mesh
 Data.D = 1; % Diffution coefficient used to calcualte the local element matracies for diffution
 Data.llambda = 1; % scalar coefficient used to calcualte the lcoal element matracies for reaciton
 Data.f = 1; % Coefficient used to calculate the local element source vector
-Data. reactionNeeded = 1; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
+Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
 
 
 [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(Data.xmin, Data.xmax, Data.Ne, Data.D, Data.llambda, Data.f, Data.reactionNeeded); % Run the code that generated the Global Matrix and Source vector afor a given set of input variables.
 
 %BOUNDARY CONDITION 1
-if BC1T = 1 % Check if the first boundary is a Dirichlet boundary
+if BC1T == 1 % Check if the first boundary is a Dirichlet boundary
     Global_Mat(1,:) = 0; % Set the top row of the global matrix to 0
     Global_Mat(1) = 1; % Set the top diagonal of the global matrix to 1
     SourceGlobal_Vec(1) = BC1V; % Set the top value of the global source vector to the input value of BC1
-elseif BC1T = 2 % Check if the first boundary is a Neumann boundary
-    
+elseif BC1T == 2 % Check if the first boundary is a Neumann boundary
+    SourceGlobal_Vec(1) = SourceGlobal_Vec(1) + -BC1V; % add the value of -D(dc/dx)x=0 to the first element of the source term vector 
 else % If neither 1 or 2 are entered for BC1
     error('Incorrect boundary condition type entered for BC1. Enter either 1 for a Dirichlet boundary condition or 2 for a Neumann boundary condition')
 end
 
 %BOUNDARY CONDITION 2
-if BC1T = 1 % Check if the second boundary is a Dirichlet boundary
-    Global_Mat(Ne+1,:) = 0; % Set the top row of the global matrix to 0
+if BC1T == 1 % Check if the second boundary is a Dirichlet boundary
+    Global_Mat(end,:) = 0; % Set the top row of the global matrix to 0
     Global_Mat(end) = 1; % Set the bottom diagonal of the global matrix to 1
-    SourceGlobal_Vec(Ne+1) = BC2V; % Set the top value of the global source vector to the input value of BC1
-elseif BC1T = 2 % Check if the second boundary is a Neumann boundary
-    
+    SourceGlobal_Vec(end) = BC2V; % Set the top value of the global source vector to the input value of BC1
+elseif BC1T == 2 % Check if the second boundary is a Neumann boundary
+    SourceGlobal_Vec(end) = BC2V; % add the value of D(dc/dx)x=1 to the last element of the source term vector
 else % If neither 1 or 2 are entered for BC1
     error('Incorrect boundary condition type entered for BC2. Enter either 1 for a Dirichlet boundary condition or 2 for a Neumann boundary condition')
 end
+
+% SOLVING THE EQUATION
+c =  Global_Mat\SourceGlobal_Vec % Solve the equations to find the vector C
 
 
 end
