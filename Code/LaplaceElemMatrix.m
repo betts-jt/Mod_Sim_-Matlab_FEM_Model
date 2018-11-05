@@ -3,7 +3,7 @@ function [LocalElementMat] = LaplaceElemMatrix(D, eID, msh)
 %operator, which can calculate this matrix for an arbitrary element eN 
 %defined between the points x0 and x1
     %%Where D is the diffusion coefficient, En is the local element number
-    %%and Mesh is the mesh data structure calcualted using
+    %%and msh is the mesh data structure calcualted using
     %%OneDimLinearMeshGen. From this mesh each elements Jacobian and the
     %%nodal posisions x0 and x1 can be accesed.
 
