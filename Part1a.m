@@ -10,7 +10,7 @@ results = runtests('CourseworkOneUnitTest'); % This line runs the test designed 
 % Part 1a of the course work is completes if all the tests in the above
 % core run successfully and withoug fault.
 
-% CHECK THAT £ TESTS WERE COMPLETE
+% CHECK THAT ALL TESTS WERE PASSED
 if results(1).Passed == 1 && results(2).Passed == 1 && results(3).Passed==1
     disp('All tests passed. Part 1a complete') % If all were compelte display this
 else
