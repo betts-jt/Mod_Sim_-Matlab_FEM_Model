@@ -34,10 +34,11 @@ tol = 1e-14;
 D = 1; %diffusion coefficient
 eID=1; %element ID
 msh = OneDimLinearMeshGen(0,1,3);
+lambda = 1;
 
-elemat1 = LocalElementMat_Reaction(D,eID,msh);%THIS IS THE FUNCTION YOU MUST WRITE
+elemat1 = LocalElementMat_Reaction(D,lambda,eID,msh);%THIS IS THE FUNCTION YOU MUST WRITE
 
-elemat2 = [ 3 -3; -3 3];
+elemat2 = [ 1/9 1/18; 1/18 1/9];
 diff = elemat1 - elemat2; %calculate the difference between the two matrices
 diffnorm = sum(sum(diff.*diff)); %calculates the total squared error between the matrices
 assert(abs(diffnorm) <= tol)
