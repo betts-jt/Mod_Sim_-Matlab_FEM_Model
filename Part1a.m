@@ -1,4 +1,4 @@
-function [results] = Part1a()
+function [] = Part1a()
 %This fuction runs the nessusary codes to complete part 1a of the
 %coursework sheet. This can be found in the documents folder.
 
