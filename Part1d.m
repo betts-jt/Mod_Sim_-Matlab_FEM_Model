@@ -15,18 +15,21 @@ Data. reactionNeeded = 1; % Value is either 1 is the problem needs the local ele
 diff = (Data.xmax-Data.xmin)/Data.Ne; % Calculate the difference between the x positions of the nodes based to the numebr of nodes and xmin/xmax
 x = [Data.xmin : diff: Data.xmax]; % Generate the array of nodal x positions
 
-for i=2:10
-    Data.Ne = i; % Set the mesh relolution to a value between 3 and 15
+% PLOT THE FEM ANSWER OVER A RANGE OF MESH RELOLUTIONS
+for i=1:5
+    Data.Ne = i; % Set the mesh relolution to a value between 1 and 5
     C_FEM = FEM_BC(1,0,1,1, Data);
     diff = (Data.xmax-Data.xmin)/Data.Ne; % Calculate the difference between the x positions of the nodes based to the numebr of nodes and xmin/xmax
     x = [Data.xmin : diff: Data.xmax]; % Generate the array of nodal x positions
-    C_ana = (exp(3)/(exp(6)-1))*(exp(3*x)-exp(-3*x));
-    figure(i)
-    plot(x, C_FEM, x , C_ana)
+    figure(4)
+    hold on
+    plot(x, C_FEM)
     xlabel('x')
     ylabel('C')
-    title(['Mesh Resolution = ' num2str(i)])
 end
-
+x_ana = [Data.xmin : ((Data.xmax-Data.xmin)/100) : Data.xmax]; % Generate an array of 100 nodal x positions to plot the analytical solution
+C_ana = (exp(3)/(exp(6)-1))*(exp(3*x_ana)-exp(-3*x_ana));
+plot(x_ana, C_ana, 'r-');
+legend('Mesh Res = 1','Mesh Res = 2','Mesh Res = 3','Mesh Res = 4','Mesh Res = 5','Analytical Solution', 'Location', 'northwest')
 end
 
