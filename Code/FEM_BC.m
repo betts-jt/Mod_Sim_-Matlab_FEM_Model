@@ -18,7 +18,7 @@ function [c] = FEM_BC(BC1T,BC1V,BC2T,BC2V, Data)
 
 %Data = ProblemData(); % Runs function which generates the data structure for the project
 
-[Global_Mat, SourceGlobal_Vec] = GlobalElementGen(Data.xmin, Data.xmax, Data.Ne, Data.D, Data.llambda, Data.f, Data.reactionNeeded); % Run the code that generated the Global Matrix and Source vector afor a given set of input variables.
+[Global_Mat, SourceGlobal_Vec] = GlobalElementGen(Data.xmin, Data.xmax, Data.Ne, Data.D, Data.llambda, Data.f, Data.reactionNeeded, Data.SourceTermConstant); % Run the code that generated the Global Matrix and Source vector afor a given set of input variables.
 
 %BOUNDARY CONDITION 1
 if BC1T == 1 % Check if the first boundary is a Dirichlet boundary

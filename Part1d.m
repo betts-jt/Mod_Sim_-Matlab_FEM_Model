@@ -13,6 +13,7 @@ Data.D = 1; % Diffution coefficient used to calcualte the local element matracie
 Data.llambda = -9; % scalar coefficient used to calcualte the lcoal element matracies for reaciton
 Data.f = 0; % Coefficient used to calculate the local element source vector
 Data. reactionNeeded = 1; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
+Data.SourceTermConstant = 0; % Value defining whether the source term is constant
 
 diff = (Data.xmax-Data.xmin)/Data.Ne; % Calculate the difference between the x positions of the nodes based to the numebr of nodes and xmin/xmax
 x = [Data.xmin : diff: Data.xmax]; % Generate the array of nodal x positions
