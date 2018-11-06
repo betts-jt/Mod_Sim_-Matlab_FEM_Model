@@ -70,6 +70,6 @@ for j = 1:Q_numPoints
     end
     FigureLab =FigureLab+1; % Add one to figure number
 end
-
+hold off
 end
 
