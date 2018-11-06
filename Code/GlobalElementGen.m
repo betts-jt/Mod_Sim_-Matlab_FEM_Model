@@ -1,4 +1,4 @@
-function [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded,SourceTermConstant)
+function [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded, SourceTermConstant)
 % Given the relevent input paramenters this cod ewill generate the local
 % element matracies for each element and combign these to form the global
 % element matrix for both the diffution operator and the reaction operator
@@ -23,7 +23,14 @@ msh = OneDimLinearMeshGen(xmin,xmax,Ne); % Generate the mesh
 % GENERATE LOCAL ELEMENT MATRACIERS FOR ALL ELEMENTS
 for i = 1:Ne
     Diffusion(i).Local = LaplaceElemMatrix(D, i, msh); % Generate the local element diffution matrix for element i
-    Source(i).Local = LocalElementVec_Source(f, i, msh); % Generate the local element source vector for element i
+    if SourceTermConstant = 1 % check if the source term is constnat
+        Source(i).Local = LocalElementVec_Source(f, i, msh); % Generate the local element source vector for element i
+    elseif SourceTermConstant = 0 % Check if the sourceterm is not constant
+        Source(i).Local = LocalElementVec_Source(f, i, msh); % Generate the local element source vector for element i
+    else
+        error('Please enter either a value of 0 ro 1 for SourceTermConstant')
+    end
+    
     if reactionNeeded == 1 % Check if the reaction matrix is required
         Reaction(i).Local = LocalElementMat_Reaction(llambda, i, msh); % Generate the local element reaction matrix for element i
         Overall(i).Local = Diffusion(i).Local - Reaction(i).Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
