@@ -16,7 +16,7 @@ Data.xmax = 0.01; % Maximum vale of x for the elements
 Data.Ne = 6; % Numeber of elements in the mesh
 Data. reactionNeeded = 1; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
 Data.D = 1.01e-5; % Setting D to the value of k from the coursework sheet
-Data.SourceTermConstant = 0; % Value defining whether the source term is constant
+Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 
 %GENERATE DATA RANGES NEEDED FOR PROBLEM
 Q_Range = [0.5 1.5]; % Maximum and minimum values of Q. The liquid flow rate.
