@@ -3,6 +3,8 @@ function [] = Part1d()
 %plots graphs to compare it to the analytical solution also given on the
 %coursework sheet.
 
+PathAdd(); % Add the correct folders to the path to allow all code to run
+
 % GENERATE A STRUCTURE OF THE RELEVENT PROBLEM VARIABLES
 Data.xmin = 0; % Minimum vale of x for the elements
 Data.xmax = 1; % Maximum vale of x for the elements
