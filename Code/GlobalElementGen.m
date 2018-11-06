@@ -18,7 +18,7 @@ function [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, ll
 %                        source term is not fixed
 
 msh = OneDimLinearMeshGen(xmin,xmax,Ne); % Generate the mesh
-SourceTermConstant
+
 % GENERATE LOCAL ELEMENT MATRACIERS FOR ALL ELEMENTS
 for i = 1:Ne
     Diffusion(i).Local = LaplaceElemMatrix(D, i, msh); % Generate the local element diffution matrix for element i
