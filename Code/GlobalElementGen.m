@@ -1,4 +1,4 @@
-function [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded)
+function [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded,SourceTermConstant)
 % Given the relevent input paramenters this cod ewill generate the local
 % element matracies for each element and combign these to form the global
 % element matrix for both the diffution operator and the reaction operator
@@ -15,6 +15,8 @@ function [Global_Mat, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, ll
 %   ReactionNeeded = This is either 1 is the global element matrix for the
 %                   reaction operator needs to be generatod or 0 if it does not need to be
 %                   gerenated.
+%   SourceTermConstant = 1 if the source term is constant and 0 if the
+%                        source term is not fixed
 
 msh = OneDimLinearMeshGen(xmin,xmax,Ne); % Generate the mesh
 
