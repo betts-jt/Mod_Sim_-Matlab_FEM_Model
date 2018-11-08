@@ -11,7 +11,7 @@ results = runtests('Part1cUnitTest_LocalSourceVector'); % This line runs the tes
 % code run successfully and withoug fault.
 
 % CHECK THAT ALL TESTS WERE PASSES
-if results(1).Passed == 1 && results(2).Passed == 1
+if results(1).Passed == 1 && results(2).Passed == 1 && results(3).Passed == 1
     disp('All tests passed. LocalElementVec_Source runs correctly') % If all were compelte display this
 else
     error('not all tests in "Part1cUnitTest_LocalSourceVector" were passed. edit LocalElementVec_Source and try again') % If not all tests were complete give an error
