@@ -22,14 +22,13 @@ msh = OneDimLinearMeshGen(xmin,xmax,Ne); % Generate the mesh
 % GENERATE LOCAL ELEMENT MATRACIERS FOR ALL ELEMENTS
 for i = 1:Ne
     Diffusion(i).Local = LaplaceElemMatrix(D, i, msh); % Generate the local element diffution matrix for element i
-    if SourceTermConstant == 1 % check if the source term is constnat
+    if SourceTermConstant == 1 % Check if the source term is constnat
         Source(i).Local = LocalElementVec_Source(f, i, msh); % Generate the local element source vector for element i
     elseif SourceTermConstant == 0 % Check if the sourceterm is not constant
         Source(i).Local = LocalElementVec_VariedSource(f, i, msh); % Generate the local element source vector for element i
     else
         error('Please enter either a value of 0 ro 1 for SourceTermConstant')
     end
-    
     if reactionNeeded == 1 % Check if the reaction matrix is required
         Reaction(i).Local = LocalElementMat_Reaction(llambda, i, msh); % Generate the local element reaction matrix for element i
         Overall(i).Local = Diffusion(i).Local - Reaction(i).Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
@@ -43,7 +42,11 @@ SourceGlobal_Vec = zeros(Ne+1,1); % Generate blank global source vector for popu
 
 % GENREATE THE GLOBAL MATRIX AND GLOBAL SOURCE VECTOR
 for i = 1:Ne
-    Global_Mat(i:i+1,i:i+1) =  Global_Mat(i:i+1,i:i+1)+Overall(i).Local; % Form the global matrix by adding the local elements to the previous loops global element matrix. This correctly sums the overlapping values on the diagonal.
-    SourceGlobal_Vec(i:i+1) = SourceGlobal_Vec(i:i+1) + Source(i).Local'; % Form the global source vector by adding the local elements to the previous loops global source vector. This correctly sums the overlapping values.
+    % Form the global matrix by adding the local elements to the previous loops global element matrix. 
+    % This correctly sums the overlapping values on the diagonal.
+    Global_Mat(i:i+1,i:i+1) =  Global_Mat(i:i+1,i:i+1)+Overall(i).Local; 
+    % Form the global source vector by adding the local elements to the previous loops global source vector. 
+    % This correctly sums the overlapping values.
+    SourceGlobal_Vec(i:i+1) = SourceGlobal_Vec(i:i+1) + Source(i).Local'; 
 end
 
