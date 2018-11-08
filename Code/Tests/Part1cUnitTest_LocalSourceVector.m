@@ -25,7 +25,7 @@ diff = elevec1 - elevec2; %calculate the difference between the two matrices
 diffnorm = sum(sum(diff.*diff)); %calculates the total squared error between the matrices
 assert(abs(diffnorm) <= tol)
 
-%% Test 2: test 2 different elements of the same size produce same vector
+%% Test 3: test 2 different elements of the same size produce same vector
 % % Test that for two elements of an equispaced mesh, as described in the
 % % lectures, the element vectors calculated are the same
 tol = 1e-14;
