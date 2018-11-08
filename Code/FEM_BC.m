@@ -16,9 +16,9 @@ function [c] = FEM_BC(BC1T,BC1V,BC2T,BC2V, Data)
 %   the direct value of Clast in the case of a Dirichlet boundary condition or
 %   the value of D(dc/dx) in the case of a Neumann boundary condition.
 
-%Data = ProblemData(); % Runs function which generates the data structure for the project
 
-[Global_Mat, SourceGlobal_Vec] = GlobalElementGen(Data.xmin, Data.xmax, Data.Ne, Data.D, Data.llambda, Data.f, Data.reactionNeeded, Data.SourceTermConstant); % Run the code that generated the Global Matrix and Source vector afor a given set of input variables.
+% Run the code that generated the Global Matrix and Source vector afor a given set of input variables.
+[Global_Mat, SourceGlobal_Vec] = GlobalElementGen(Data.xmin, Data.xmax, Data.Ne, Data.D, Data.llambda, Data.f, Data.reactionNeeded, Data.SourceTermConstant); 
 
 %BOUNDARY CONDITION 1
 if BC1T == 1 % Check if the first boundary is a Dirichlet boundary
@@ -42,7 +42,7 @@ else % If neither 1 or 2 are entered for BC1
     error('Incorrect boundary condition type entered for BC2. Enter either 1 for a Dirichlet boundary condition or 2 for a Neumann boundary condition')
 end
 
-% SOLVING THE EQUATION
+% SOLVING THE DIFFUSION-REACTION EQUATION
 c =  Global_Mat\SourceGlobal_Vec; % Solve the equations to find the vector C
 
 
