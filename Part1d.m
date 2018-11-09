@@ -19,24 +19,33 @@ diff = (Data.xmax-Data.xmin)/Data.Ne; % Calculate the difference between the x p
 x = [Data.xmin : diff: Data.xmax]; % Generate the array of nodal x positions
 
 % PLOT THE FEM ANSWER OVER A RANGE OF MESH RELOLUTIONS
-for i=1:5
+for i=2:5
     Data.Ne = i; % Set the mesh relolution to a value between 1 and 5
-    C_FEM = FEM_BC(1,0,1,1, Data);
+    C_FEM = FEM_BC(1,0,1,1, Data)
     diff = (Data.xmax-Data.xmin)/Data.Ne; % Calculate the difference between the x positions of the nodes based to the numebr of nodes and xmin/xmax
-    x = [Data.xmin : diff: Data.xmax]; % Generate the array of nodal x positions
+    x = [Data.xmin : diff: Data.xmax] % Generate the array of nodal x positions
     figure(4)
     hold on
-    plot(x, C_FEM)
+    if i==2 
+    plot(x, C_FEM, 'x-')
+    elseif i==3
+        plot(x, C_FEM, '<-')
+    elseif i==4
+        plot(x, C_FEM, '*-')
+    elseif i==5
+        plot(x, C_FEM, '+-')
+    end
 end
 
 % PLOT THE ANALYTICAL ANSWER
 x_ana = [Data.xmin : ((Data.xmax-Data.xmin)/100) : Data.xmax]; % Generate an array of 100 nodal x positions to plot the analytical solution
 C_ana = (exp(3)/(exp(6)-1))*(exp(3*x_ana)-exp(-3*x_ana));
-plot(x_ana, C_ana, 'r-');
+plot(x_ana, C_ana, 'r-', 'LineWidth',1.2);
 
 %FORMAT GRAPH
-legend('Mesh Res = 1','Mesh Res = 2','Mesh Res = 3','Mesh Res = 4','Mesh Res = 5','Analytical Solution', 'Location', 'northwest')
+legend('Mesh Res = 2','Mesh Res = 3','Mesh Res = 4','Mesh Res = 5','Analytical Solution', 'Location', 'northwest')
 xlabel('x')
 ylabel('C')
+title('Results of varying mesh resolution on accuracy of FEM solver')
 end
 
