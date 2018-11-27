@@ -1,4 +1,4 @@
-function [ dpsidxi ] = EvalBasisGrad(lnid, xipts)
+function [ dpsidxi ] = EvalBasisGrad(lnid, Xipt)
 %EvalBasisGrad Returns gradient of basis functions
 % Returns the gradients of the linear Lagrange basis functions for a
 % specificed local node id (lnid = 0 or 1) and xipt (gradient is a constant

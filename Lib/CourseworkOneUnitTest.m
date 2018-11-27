@@ -35,7 +35,7 @@ D = 1; %diffusion coefficient
 eID=1; %element ID
 msh = OneDimLinearMeshGen(0,1,3);
 
-elemat1 = LaplaceElemMatrix(D,eID,msh);%THIS IS THE FUNCTION YOU MUST WRITE
+elemat1 = LaplaceElemMatrix(D,eID,msh)%THIS IS THE FUNCTION YOU MUST WRITE
 
 elemat2 = [ 3 -3; -3 3];
 diff = elemat1 - elemat2; %calculate the difference between the two matrices

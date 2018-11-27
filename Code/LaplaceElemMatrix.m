@@ -14,28 +14,30 @@ x1 = msh.elem(eID).x(2); % Second X value of element being analysed
 Xi0 = -1; % The vlaue of Xi0
 Xi1 = 1; % The vlaue of Xi1
 
+% IMPLIMENTING GAUSSIAN QUADRATURE
+N=2;
+[gq] = CreateGQScheme(N); %Creating the values of gaussian quadrature
+
+dPsidXi = [-0.5 0.5]; % Get vector containing basis function gradients at xipt
+
 J = msh.elem(eID).J; % Drawing in the Jacobian of the element ebing analysed
 
-dXi_dx =1/J; % Calculating the value of dXi/dx
-   
-dPsi0_dXi = -0.5; % Calculating the value of dphi0/dxi
-dPsi1_dXi = 0.5; % Calculating the value of dpsi1/dxi
+dXidx =1/J; % Calculating the value of dXi/dx
 
-% LONG FORM OF INTEGRALS USED TO GENERATE THE LOCAL ELEMENT MATRIX
-%{
-% Calculating the first value (Int00) of the local element matrix
-Int00 = Integral(D*dPsi0_dXi*dXi_dx*dPsi0_dXi*dXi_dx*J*(Xi1-Xi0)) [-1,1]; 
-% Calculating the second and third value (Int10/Int01) of the local element matrix
-Int01 = Integral(D*dPsi0_dXi*dXi_dx*dPsi1_dXi*dXi_dx*J*(Xi1-Xi0)) [-1,1]; 
-% Calculating the final value (Int11) of the local element matrix
-Int11 = Integral(D*dPsi1_dXi*dXi_dx*dPsi1_dXi*dXi_dx*J*(Xi1-Xi0)) [-1,1]; 
-%}
+% Setting up initial values of the local element matrix
+Int00 = 0;
+Int01 = 0;
+Int11 = 0;
 
-% LONG FORM OF INTEGRALS USED TO GENERATE THE LOCAL ELEMENT MATRIX (See report for
-%derrivation)
+for k=1:N
+    % Calculating the first value (Int00) of the local element matrix
+    Int00 = Int00 + gq.wi(k)*(D * dPsidXi(1) * dXidx * dPsidXi(1) * dXidx * J);
+    % Calculating the second and third value (Int10/Int01) of the local element matrix
+    Int01 = Int01 + gq.wi(k)*(D * dPsidXi(1) * dXidx * dPsidXi(2) * dXidx * J);
+    % Calculating the final value (Int11) of the local element matrix
+    Int11 = Int00 + gq.wi(k)*(D * dPsidXi(2) * dXidx * dPsidXi(2) * dXidx * J);
+end
 
-Int00 = D/(x1-x0); % Calculating the first and final value (Int00/Int11) of the local element matrix
-Int01 = -D/(x1-x0); % Calculating the second and third value (Int01/Int10) of the lcoal element matrix
 
 LocalElementMat = [Int00 Int01; Int01 Int00]; % For the lcoal element matrix
 
