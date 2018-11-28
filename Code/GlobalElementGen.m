@@ -1,4 +1,4 @@
-function [Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = GlobalElementGen(xmin, xmax, Ne, D, llambda, f, reactionNeeded, SourceNeeded,SourceTermConstant)
+function [Gloabl_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = GlobalElementGen(Data)
 % Given the relevent input paramenters this cod ewill generate the local
 % element matracies for each element and combign these to form the global
 % element matrix for both the diffution operator and the reaction operator
@@ -17,26 +17,26 @@ function [Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = GlobalElementGen(xmin,
 %   SourceTermConstant = 1 if the source term is constant and 0 if the
 %                        source term is not fixed
 
-msh = OneDimLinearMeshGen(xmin,xmax,Ne); % Generate the mesh
+msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 
 % GENERATE LOCAL ELEMENT MATRACIERS FOR ALL ELEMENTS
-for i = 1:Ne
+for i = 1:Data.Ne
     Mass(i).Local = LocalElementMat_Mass(i, msh); % Generate the local element mass matrix for element i
     
-    Diffusion(i).Local = LaplaceElemMatrix(D, i, msh); % Generate the local element diffution matrix for element i
+    Diffusion(i).Local = LaplaceElemMatrix(Data.D, i, msh); % Generate the local element diffution matrix for element i
     
-    if reactionNeeded == 1 % Check if the reaction matrix is required
-        Reaction(i).Local = LocalElementMat_Reaction(llambda, i, msh); % Generate the local element reaction matrix for element i
+    if Data.reactionNeeded == 1 % Check if the reaction matrix is required
+        Reaction(i).Local = LocalElementMat_Reaction(Data.llambda, Data.i, msh); % Generate the local element reaction matrix for element i
         Stiffness(i).Local = Diffusion(i).Local - Reaction(i).Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
     else
         Stiffness(i).Local = Diffusion(i).Local; % Calculate the overall local element matrix of the left hand side of the equation if the reaction term isn't needed
     end
     
-    if SourceNeeded == 1 % check if there is a source term is required
-        if SourceTermConstant == 1 % Check if the source term is constnat
-            Source(i).Local = LocalElementVec_Source(f, i, msh); % Generate the local element source vector for element i
-        elseif SourceTermConstant == 0 % Check if the sourceterm is not constant
-            Source(i).Local = LocalElementVec_VariedSource(f, i, msh); % Generate the local element source vector for element i
+    if Data.SourceNeeded == 1 % check if there is a source term is required
+        if Data.SourceTermConstant == 1 % Check if the source term is constnat
+            Source(i).Local = LocalElementVec_Source(Data.f, i, msh); % Generate the local element source vector for element i
+        elseif Data.SourceTermConstant == 0 % Check if the sourceterm is not constant
+            Source(i).Local = LocalElementVec_VariedSource(Data.f, i, msh); % Generate the local element source vector for element i
         else
             error('Please enter either a value of 0 ro 1 for SourceTermConstant')
         end
@@ -44,24 +44,27 @@ for i = 1:Ne
     end
 end
 
-Global_Mat_K = zeros(Ne+1); % Generate blank global matrix for population.
-Global_Mat_M = zeros(Ne+1); % Generate blank global matrix for population.
+Global_Mat_K = zeros(Data.Ne+1); % Generate blank global matrix for population.
+Global_Mat_M = zeros(Data.Ne+1); % Generate blank global matrix for population.
 
-SourceGlobal_Vec = zeros(Ne+1,1); % Generate blank global source vector for population.
+SourceGlobal_Vec = zeros(Data.Ne+1,1); % Generate blank global source vector for population.
 
 % GENREATE THE GLOBAL MATRIX AND GLOBAL SOURCE VECTOR
-for i = 1:Ne
+for i = 1:Data.Ne
     % Form the global matrix by adding the local elements to the previous loops global element matrix.
     % This correctly sums the overlapping values on the diagonal.
     Global_Mat_K(i:i+1,i:i+1) =  Global_Mat_K(i:i+1,i:i+1)+Stiffness(i).Local;
     Global_Mat_M(i:i+1,i:i+1) =  Global_Mat_M(i:i+1,i:i+1)+Mass(i).Local;
     % Form the global source vector by adding the local elements to the previous loops global source vector.
     % This correctly sums the overlapping values.
-    if SourceNeeded == 1
+    if Data.SourceNeeded == 1
         SourceGlobal_Vec(i:i+1) = SourceGlobal_Vec(i:i+1) + Source(i).Local';
     else
         SourceGlobal_Vec(i:i+1) = 0;
     end
 end
+
+Global_Mat = [Global_Mat_M + (Data.Theta*Data.Delta_t*Global_Mat_K)]
+
 end
 
