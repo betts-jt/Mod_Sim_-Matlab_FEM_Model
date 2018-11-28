@@ -12,6 +12,7 @@ Data.D = 1; % Diffution coefficient used to calcualte the local element matracie
 Data.llambda = 1; % scalar coefficient used to calcualte the lcoal element matracies for reaciton
 Data.f = 0; % Coefficient used to calculate the local element source vector
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
+Data.SourceNeeded = 1;
 Data.SourceTermConstant = 0; % Value defining whether the source term is constant
 
 BC1T = 1; % Dirichlet BC
@@ -39,6 +40,7 @@ Data.D = 1; % Diffution coefficient used to calcualte the local element matracie
 Data.llambda = 1; % scalar coefficient used to calcualte the lcoal element matracies for reaciton
 Data.f = 0; % Coefficient used to calculate the local element source vector
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
+Data.SourceNeeded = 1;
 Data.SourceTermConstant = 0; % Value defining whether the source term is constant
 
 BC1T = 1; % Dirichlet BC
@@ -66,6 +68,7 @@ Data.D = 1; % Diffution coefficient used to calcualte the local element matracie
 Data.llambda = 1; % scalar coefficient used to calcualte the lcoal element matracies for reaciton
 Data.f = 0; % Coefficient used to calculate the local element source vector
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
+Data.SourceNeeded = 1;
 Data.SourceTermConstant = 0; % Value defining whether the source term is constant
 
 BC1T = 1; % Dirichlet BC
@@ -92,6 +95,7 @@ Data.D = 1; % Diffution coefficient used to calcualte the local element matracie
 Data.llambda = 1; % scalar coefficient used to calcualte the lcoal element matracies for reaciton
 Data.f = 0; % Coefficient used to calculate the local element source vector
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction to be calcualted or 0 is these are not needed.
+Data.SourceNeeded = 1;
 Data.SourceTermConstant = 0; % Value defining whether the source term is constant
 
 BC1T = 1; % Dirichlet BC
