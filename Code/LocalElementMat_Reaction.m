@@ -3,7 +3,7 @@ function [LocalElementMat_Reaction] = LocalElementMat_Reaction(llambda, eID, msh
 %operator, which can calculate this matrix for an arbitrary element eN 
 %defined between the points x0 and x1
 %   llambda = scalar coefficient
-%   En = local element number
+%   eID = local element number
 %   msh = mesh data structure calcualted using
 %       OneDimLinearMeshGen. From this mesh each elements Jacobian and the
 %       nodal posisions x0 and x1 can be accesed.
