@@ -94,6 +94,6 @@ for k  = 2:N+1
 end
 
 % DETERNIME IF BURNING OCCURS/WHEN
-[Gamma BurningStart]= TissueDamage(Data, TempE, time)
+[Gamma BurningStart]= TissueDamage(Data, TempE, time);
 
 end
