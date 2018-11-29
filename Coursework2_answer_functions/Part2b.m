@@ -1,4 +1,4 @@
-function [Gamma, BurningStart] = Part2b()
+function [Gamma, BurningStart] = Part2b(SurfaceTemp)
 % This function runs the code for part 1 fo the modilling and sinulation
 % assignment 2
 
@@ -11,7 +11,7 @@ Data.Ne = 600; % Numeber of elements in the mesh
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 Data.dt = 0.05; % Timestep for transient responce
-total_t = 10; % Total time for analysis
+total_t = 50; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
@@ -42,8 +42,7 @@ msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 
 % SET UP BOUNDARY CONDITIONS
 BC1T = 'D'; % Define type of BC 1
-%BC1V = 393.15; % Value of BC1
-BC1V = 320;
+BC1V = SurfaceTemp; % Value of BC1
 BC2T = 'D'; % Define type of BC 2
 BC2V = 310.15; % Value of BC2
 
