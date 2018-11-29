@@ -55,6 +55,7 @@ end
 
 Global_Mat_K = zeros(Data.Ne+1); % Generate blank global matrix for population.
 Global_Mat_M = zeros(Data.Ne+1); % Generate blank global matrix for population.
+Global_Mat = zeros(Data.Ne+1); % Generate blank global matrix for population.
 
 SourceGlobal_Vec = zeros(Data.Ne+1,1); % Generate blank global source vector for population.
 
@@ -73,7 +74,7 @@ for i = 1:Data.Ne
     end
 end
 
-Global_Mat = [Global_Mat_M + (Data.Theta*Data.Delta_t*Global_Mat_K)]
+Global_Mat = [Global_Mat_M + (Data.Theta*Data.Delta_t*Global_Mat_K)];
 
 end
 
