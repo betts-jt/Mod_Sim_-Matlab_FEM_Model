@@ -1,4 +1,4 @@
-function [c, Global_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = Trans_FEM_BC(BC1T,BC1V,BC2T,BC2V, Data)
+function [Global_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = Trans_FEM_BC(BC1T,BC1V,BC2T,BC2V, Data)
 % This function will solve a simple transient FEM model
 % conditions.
 %   Where;
@@ -18,7 +18,7 @@ function [c, Global_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = Trans_F
 
 
 % Run the code that generated the Global Stiffness Matrix, Global mass matrix and Source vector afor a given set of input variables.
-[Global_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = GlobalElementGen(Data); 
+[Global_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = GlobalElementGen(Data);
 
 %BOUNDARY CONDITION 1
 if BC1T == 'D' % Check if the first boundary is a Dirichlet boundary
@@ -26,7 +26,7 @@ if BC1T == 'D' % Check if the first boundary is a Dirichlet boundary
     Global_Mat(1) = 1; % Set the top diagonal of the global matrix to 1
     SourceGlobal_Vec(1) = BC1V; % Set the top value of the global source vector to the input value of BC1
 elseif BC1T == 'N' % Check if the first boundary is a Neumann boundary
-    SourceGlobal_Vec(1) = SourceGlobal_Vec(1) + -BC1V; % add the value of -D(dc/dx)x=0 to the first element of the source term vector 
+    SourceGlobal_Vec(1) = SourceGlobal_Vec(1) + -BC1V; % add the value of -D(dc/dx)x=0 to the first element of the source term vector
 else % If neither 1 or 2 are entered for BC1
     error('Incorrect boundary condition type entered for BC1. Enter either D for a Dirichlet boundary condition or N for a Neumann boundary condition')
 end
@@ -41,9 +41,5 @@ elseif BC2T == 'N' % Check if the second boundary is a Neumann boundary
 else % If neither 1 or 2 are entered for BC1
     error('Incorrect boundary condition type entered for BC2. Enter either D for a Dirichlet boundary condition or N for a Neumann boundary condition')
 end
-
-% SOLVING THE DIFFUSION-REACTION EQUATION
-c(Data.t) =  Global_Mat\SourceGlobal_Vec; % Solve the equations to find the vector C
-
 
 end

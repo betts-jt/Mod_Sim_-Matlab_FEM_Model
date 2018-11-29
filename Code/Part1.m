@@ -30,7 +30,7 @@ c_results = zeros(N,Data.Ne);
 c_results(1,:) = c_current; 
 
 for k  = 2:N+1
-    [c_next, Global_Mat_next, Global_Mat_K_next, Global_Mat_M_next, SourceGlobal_Vec_next] = Trans_FEM_BC(BC1T,BC1V,BC2T,BC2V, Data);
+    [Global_Mat_next, Global_Mat_K_next, Global_Mat_M_next, SourceGlobal_Vec_next] = Trans_FEM_BC(BC1T,BC1V,BC2T,BC2V, Data);
     
     % Calculate the matrix to multiply to the previous solution
     A = Global_Mat_M_next-((1-Data.Theta)*Data.dt*Global_Mat_K_next);
