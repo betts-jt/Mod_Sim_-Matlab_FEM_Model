@@ -5,7 +5,12 @@ function [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, C_current,
 %   C_current = current colution value
 %   Data = Structure of probelem variables.
 
+
 for i = 1:Data.Ne
+    if Data.VariedParamaters == 1
+    [Data] = EquationConstants(msh.nvec(i+1), Data);
+    else
+    end
     % LOCAL ELEMENT MATRACIES
     Mass_Local = LocalElementMat_Mass(i, msh); % Generate the local element mass matrix for element i
     
