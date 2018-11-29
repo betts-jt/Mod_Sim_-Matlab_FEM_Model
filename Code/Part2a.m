@@ -14,7 +14,8 @@ Data.dt = 0.01; % Timestep for transient responce
 total_t = 1; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
-Data.VariedParamaters = 0; % Value is either 1 if the equation parameters vary with x or 0 if they dont
+Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
+
 % Allow used to select solving method
 answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
 % Handle response
@@ -31,7 +32,7 @@ if Data.VariedParamaters == 0
     Data.D = 1; % Set fixed value of D
     Data.lambda = 0; % Set fixed value of lambda
     Data.f = 0; % Set fixed value of f
-elseif Data.VariedParamaters ==1
+elseif Data.VariedParamaters == 1
 else
     error('Please enter either 0 or 1 for Data.VariedParamaters')
 end
