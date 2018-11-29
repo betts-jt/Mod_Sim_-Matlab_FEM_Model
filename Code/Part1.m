@@ -15,7 +15,17 @@ total_t = 1; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
 Data.VariedParamaters = 0; % Value is either 1 if the equation parameters vary with x or 0 if they dont
-Data.Theta = 1; % Value difining the method to be used to solve the transient resonce. 0.5 for Crank Nicolson. 1 for Backward Euler
+% Allow used to select solving method
+answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
+% Handle response
+switch answer
+    case 'Crank-Nicolson'
+        disp([answer ' is the selected solving method'])
+        Data.Theta = 0.5;
+    case 'Backwards Euler'
+        disp([answer '  is the selected solving method'])
+        Data.Theta = 1;
+end
 
 if Data.VariedParamaters == 0
     Data.D = 1; % Set fixed value of D
