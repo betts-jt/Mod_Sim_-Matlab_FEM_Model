@@ -15,7 +15,7 @@ total_t = 50; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
-
+%{
 % Allow used to select solving method
 answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
 % Handle response
@@ -27,7 +27,8 @@ switch answer
         disp([answer '  is the selected solving method'])
         Data.Theta = 1;
 end
-
+%}
+Data.Theta = 1;
 if Data.VariedParamaters == 0
     Data.D = 1; % Set fixed value of D
     Data.lambda = 0; % Set fixed value of lambda
@@ -83,13 +84,13 @@ for k  = 2:N+1
     Global_Mat_M = zeros(Data.Ne+1);
     Global_Mat = zeros(Data.Ne+1);
     Global_Vec = zeros(Data.Ne+1, 1);
-    
+    %{
     figure(1)
-    hold on
     plot(x,c_results(k,:)')
     ylabel('Tempurature, K')
     xlabel('Distance through skin, mm')
-    legend(['Current Time ' num2str(time(k)) 's'], 'Location', 'NorthWest')   
+    legend(['Current Time ' num2str(time(k)) 's'], 'Location', 'NorthWest')
+   %}
 end
 
 % DETERNIME IF BURNING OCCURS/WHEN
