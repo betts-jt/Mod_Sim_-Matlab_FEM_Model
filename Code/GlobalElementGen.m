@@ -41,15 +41,12 @@ for i = 1:Data.Ne
         Stiffness(i).Local = Diffusion(i).Local; % Calculate the overall local element matrix of the left hand side of the equation if the reaction term isn't needed
     end
     
-    if Data.SourceNeeded == 1 % check if there is a source term is required
-        if Data.SourceTermConstant == 1 % Check if the source term is constnat
-            Source(i).Local = LocalElementVec_Source(Data.f, i, msh); % Generate the local element source vector for element i
-        elseif Data.SourceTermConstant == 0 % Check if the sourceterm is not constant
-            Source(i).Local = LocalElementVec_VariedSource(Data.f, i, msh); % Generate the local element source vector for element i
-        else
-            error('Please enter either a value of 0 ro 1 for SourceTermConstant')
-        end
+    if Data.SourceTermConstant == 1 % Check if the source term is constnat
+        Source(i).Local = LocalElementVec_Source(Data.f, i, msh); % Generate the local element source vector for element i
+    elseif Data.SourceTermConstant == 0 % Check if the sourceterm is not constant
+        Source(i).Local = LocalElementVec_VariedSource(Data.f, i, msh); % Generate the local element source vector for element i
     else
+        error('Please enter either a value of 0 ro 1 for SourceTermConstant')
     end
 end
 
@@ -67,11 +64,9 @@ for i = 1:Data.Ne
     Global_Mat_M(i:i+1,i:i+1) =  Global_Mat_M(i:i+1,i:i+1)+Mass(i).Local;
     % Form the global source vector by adding the local elements to the previous loops global source vector.
     % This correctly sums the overlapping values.
-    if Data.SourceNeeded == 1
-        SourceGlobal_Vec(i:i+1) = SourceGlobal_Vec(i:i+1) + Source(i).Local';
-    else
-        SourceGlobal_Vec(i:i+1) = 0;
-    end
+    
+    SourceGlobal_Vec(i:i+1) = SourceGlobal_Vec(i:i+1) + Source(i).Local';
+    
 end
 
 Global_Mat = [Global_Mat_M + (Data.Theta*Data.dt*Global_Mat_K)];
