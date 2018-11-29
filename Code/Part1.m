@@ -5,7 +5,6 @@ Data.xmin = 0; % Minimum vale of x for the elements
 Data.xmax = 1; % Maximum vale of x for the elements
 Data.Ne = 10; % Numeber of elements in the mesh
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
-Data.SourceNeeded = 0; % Value is either 1 is the problem needs the local element vector due to source need to be calcualted or 0 is these are not needed.
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 Data.dt = 0.01; % Timestep for transient responce
 total_t = 1; % Total time for analysis
