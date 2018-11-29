@@ -1,4 +1,4 @@
-function [c_results] = Part1()
+function [] = Part1()
 % This function runs the code for part 1 fo the modilling and sinulation
 % assignment 2
 
@@ -71,13 +71,35 @@ for k  = 2:N+1
 end
 
 %PLOT RESULTS
+% Plot T distribution at different time values
 figure(1)
+hold on
+plot(x, c_results(1+0.05/0.01,:), '+-')
+plot(x, c_results(1+0.1/0.01,:), '+-')
+plot(x, c_results(1+0.3/0.01,:), '+-')
+plot(x, c_results(1+1/0.01,:), '+-')
+title('Tempurature Distribution at Different Times')
 xlabel('x, mm')
 ylabel('Tepturature, K')
-plot(x, c_results((1+0.05/0.01),:)
-plot(x, c_results((1+0.1/0.01),:)
-plot(x, c_results((1+0.3/0.01),:)
-plot(x, c_results((1+0.05/1),:)
-length(x)
+legend('t=0.05','t=0.1','t=0.3','t=1', 'Location', 'NorthWest')
 
+% Plot analytical solution vs numerical solution
+for i=1:N+1
+     c(i)  = TransientAnalyticSoln(0.8,time(i));
+end
+figure(2)
+hold on
+plot(time, c_results(:,1+8), 'ro-')
+plot(time, c, 'b-')
+title('Numeric Vs Analytical')
+xlabel('t, s')
+ylabel('c(x,t)')
+legend('Numerical Solution', 'Analytical solution', 'Location' , 'SouthEast')
+
+% Plot difference between numerical and analytical
+figure(3)
+plot(time,c-c_results(:,1+8)')
+title('Error Between Numerical and Analytical Solutions')
+xlabel('t, s')
+ylabel('c(x,t)')
 end
