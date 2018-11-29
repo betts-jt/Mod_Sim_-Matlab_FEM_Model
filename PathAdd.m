@@ -5,6 +5,7 @@ function [] = PathAdd()
 addpath('Lib');
 addpath('Code');
 addpath('Code/Tests');
+addpath('Coursework2_answer_functions')
 
 end
 
