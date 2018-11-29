@@ -1,4 +1,4 @@
-function [] = Part2b()
+function [Gamma, BurningStart] = Part2b()
 % This function runs the code for part 1 fo the modilling and sinulation
 % assignment 2
 
@@ -10,7 +10,7 @@ Data.xmax = 0.01; % Maximum vale of x for the elements
 Data.Ne = 600; % Numeber of elements in the mesh
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
-Data.dt = 0.1; % Timestep for transient responce
+Data.dt = 0.05; % Timestep for transient responce
 total_t = 10; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
@@ -42,9 +42,10 @@ msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 
 % SET UP BOUNDARY CONDITIONS
 BC1T = 'D'; % Define type of BC 1
-BC1V = 310.15; % Value of BC1
+%BC1V = 393.15; % Value of BC1
+BC1V = 320;
 BC2T = 'D'; % Define type of BC 2
-BC2V = 393.15; % Value of BC2
+BC2V = 310.15; % Value of BC2
 
 InitialCon = 310.15; % Initial condition of the problem in time
 
@@ -74,6 +75,10 @@ for k  = 2:N+1
     c_current = c_next; % set current to calue of c next
     c_results(k,:) = c_current'; % Store c_current to file
     
+    % FIND TEMPURATURE AT POINT E
+    [E_point] =find(round(msh.nvec, 9)==0.001666667); % find when x = E (0.00166667)
+    TempE(k-1) = c_results(k, E_point);
+    
     % REINITIALISE MATRACIES
     Global_Mat_K = zeros(Data.Ne+1);
     Global_Mat_M = zeros(Data.Ne+1);
@@ -83,7 +88,12 @@ for k  = 2:N+1
     figure(1)
     hold on
     plot(x,c_results(k,:)')
-    
+    ylabel('Tempurature, K')
+    xlabel('Distance through skin, mm')
+    legend(['Current Time ' num2str(time(k)) 's'], 'Location', 'NorthWest')   
 end
+
+% DETERNIME IF BURNING OCCURS/WHEN
+[Gamma BurningStart]= TissueDamage(Data, TempE, time)
 
 end
