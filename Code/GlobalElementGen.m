@@ -1,4 +1,4 @@
-function [Gloabl_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = GlobalElementGen(Data)
+function [Global_Mat, Global_Mat_K, Global_Mat_M, SourceGlobal_Vec] = GlobalElementGen(Data)
 % Given the relevent input paramenters this cod ewill generate the local
 % element matracies for each element and combign these to form the global
 % element matrix for both the diffution operator and the reaction operator
@@ -22,9 +22,9 @@ msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 % GENERATE LOCAL ELEMENT MATRACIERS FOR ALL ELEMENTS
 for i = 1:Data.Ne
     
-    if Data.VariedParam ==1 % Check if paramature values vary with x
+    if Data.VariedParamaters ==1 % Check if paramature values vary with x
         Data = EquationConstants(msh.nvec, Data); % Run function to get the value of f, D and lambda at the x point (nvec)
-    elseif Data.VariedParam == 0 % If they don't vary
+    elseif Data.VariedParamaters == 0 % If they don't vary
         Data.D = 1; % Set fixed value of D
         Data.lambda = 0; % Set fixed value of lambda
         Data.f = 0; % Set fixed value of f
@@ -74,7 +74,7 @@ for i = 1:Data.Ne
     end
 end
 
-Global_Mat = [Global_Mat_M + (Data.Theta*Data.Delta_t*Global_Mat_K)];
+Global_Mat = [Global_Mat_M + (Data.Theta*Data.dt*Global_Mat_K)];
 
 end
 
