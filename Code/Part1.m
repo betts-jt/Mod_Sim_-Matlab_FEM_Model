@@ -80,7 +80,7 @@ for k  = 2:N+1
     
 end
 
-%PLOT RESULTS
+%% PLOT RESULTS
 % Plot T distribution at different time values
 figure(1)
 hold on
@@ -93,9 +93,9 @@ xlabel('x, mm')
 ylabel('Tepturature, K')
 legend('t=0.05','t=0.1','t=0.3','t=1', 'Location', 'NorthWest')
 
-% Plot analytical solution vs numerical solution
+%% Plot analytical solution vs numerical solution
 for i=1:N+1
-     c(i)  = TransientAnalyticSoln(0.8,time(i));
+    c(i)  = TransientAnalyticSoln(0.8,time(i));
 end
 figure(2)
 hold on
@@ -106,10 +106,93 @@ xlabel('t, s')
 ylabel('c(x,t)')
 legend('Numerical Solution', 'Analytical solution', 'Location' , 'SouthEast')
 
-% Plot difference between numerical and analytical
+%% Plot difference between numerical and analytical
 figure(3)
 plot(time,c-c_results(:,1+8)')
 title('Error Between Numerical and Analytical Solutions')
 xlabel('t, s')
 ylabel('c(x,t)')
+
+%{
+%% Plot Unstability of crank nicolson method compared to Euler
+step = 0.01:(1-0.01)/99:1;
+%Crank nicolson
+for i = 1:100
+    Data.dt = step(i); % Timestep for transient responce
+    c_current(Data.Ne+1, 1) = InitialCon;
+    c_results = zeros(N,Data.Ne+1);
+    c_results(1,:) = c_current;
+    
+    % INITIALISE MATRACIES
+    Global_Mat_K = zeros(Data.Ne+1);
+    Global_Mat_M = zeros(Data.Ne+1);
+    Global_Mat = zeros(Data.Ne+1);
+    Global_Vec = zeros(Data.Ne+1, 1);
+    
+    Data.Theta = 1;
+    
+    for k  = 2:N+1
+        % CALCULATE THE GLOBAL MATRIX AND VECTOR
+        [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M);
+        
+        % APPLY BOUNDARY CONDITIONS
+        [Global_Mat, Global_Vec] = ApplyBC(BC1T,BC1V,BC2T,BC2V, Data, Global_Mat, Global_Vec);
+        
+        c_next = Global_Mat\Global_Vec; % generate the solution at the next point
+        
+        c_current = c_next; % set current to calue of c next
+        c_results(k,:) = c_current'; % Store c_current to file
+        
+        % REINITIALISE MATRACIES
+        Global_Mat_K = zeros(Data.Ne+1);
+        Global_Mat_M = zeros(Data.Ne+1);
+        Global_Mat = zeros(Data.Ne+1);
+        Global_Vec = zeros(Data.Ne+1, 1);
+        
+    end
+    c_plotCrank(i)=c_results(1+round(0.3/step(i)),1+8)';
+end
+
+% Backwards Euler
+for i = 1:100
+    Data.dt = step(i); % Timestep for transient responce
+    c_current(Data.Ne+1, 1) = InitialCon;
+    c_results = zeros(N,Data.Ne+1);
+    c_results(1,:) = c_current;
+    
+    % INITIALISE MATRACIES
+    Global_Mat_K = zeros(Data.Ne+1);
+    Global_Mat_M = zeros(Data.Ne+1);
+    Global_Mat = zeros(Data.Ne+1);
+    Global_Vec = zeros(Data.Ne+1, 1);
+    
+    Data.Theta = 0.5;
+    
+    for k  = 2:N+1
+        % CALCULATE THE GLOBAL MATRIX AND VECTOR
+        [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M);
+        
+        % APPLY BOUNDARY CONDITIONS
+        [Global_Mat, Global_Vec] = ApplyBC(BC1T,BC1V,BC2T,BC2V, Data, Global_Mat, Global_Vec);
+        
+        c_next = Global_Mat\Global_Vec; % generate the solution at the next point
+        
+        c_current = c_next; % set current to calue of c next
+        c_results(k,:) = c_current'; % Store c_current to file
+        
+        % REINITIALISE MATRACIES
+        Global_Mat_K = zeros(Data.Ne+1);
+        Global_Mat_M = zeros(Data.Ne+1);
+        Global_Mat = zeros(Data.Ne+1);
+        Global_Vec = zeros(Data.Ne+1, 1);
+        
+    end
+    c_plotEuler(i)=c_results(1+round(0.3/step(i)),1+8)';
+    a = 1+round(0.3/step(i))
+end
+figure(4)
+hold on
+plot(step,c_plotEuler)
+plot(step, c_plotCrank)
+%}
 end
