@@ -42,16 +42,17 @@ msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 
 % SET UP BOUNDARY CONDITIONS
 BC1T = 'D'; % Define type of BC 1
-BC1V = 0; % Value of BC1
+BC1V = 310.15; % Value of BC1
 BC2T = 'D'; % Define type of BC 2
-BC2V = 1; % Value of BC2
+BC2V = 393.15; % Value of BC2
 
-InitialCon = 0; % Initial condition of the problem in time
+InitialCon = 310.15; % Initial condition of the problem in time
 
 time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
 x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax;
 
-c_current(Data.Ne+1, 1) = InitialCon;
+c_current=zeros(Data.Ne+1, 1);
+c_current(:,1) = InitialCon;
 c_results = zeros(N,Data.Ne+1);
 c_results(1,:) = c_current;
 
