@@ -4,8 +4,7 @@ PathAdd(); % Add the correct folders to the path to allow all code to run
 Data.xmin = 0; % Minimum vale of x for the elements
 Data.xmax = 1; % Maximum vale of x for the elements
 Data.Ne = 10; % Numeber of elements in the mesh
-Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed.
-Data.D = 1; % Setting D to the value of d
+Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
 Data.SourceNeeded = 0; % Value is either 1 is the problem needs the local element vector due to source need to be calcualted or 0 is these are not needed.
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 
@@ -22,9 +21,11 @@ BC2T = 'D'; % Define type of BC 2
 BC2V = 1; % Value of BC2
 InitialCon = 0; % Initial condition of the problem in time
 
-timestep  = 0:Data.dt:(total_t);
+time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
+x = Data.xmin: Data
 
-c(1).time = InitialCon;
+c_results = zeros(N,Data.Ne)
+c_results(1,:) = InitialCon; 
 
 for k  = 2:N+1
     [c(k).time, Global_Mat(k).time, Global_Mat_K(k).time, Global_Mat_M(k).time, SourceGlobal_Vec(k).time] = Trans_FEM_BC(BC1T,BC1V,BC2T,BC2V, Data);
