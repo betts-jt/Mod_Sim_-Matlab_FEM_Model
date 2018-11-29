@@ -44,5 +44,8 @@ for k  = 2:N+1
 
     Global_Vector = Ac + B + C; % Caluclate the global source vector
     
+    c_next = Global_Mat\SourceGlobal_Vec; % generate the solution at the next point
     
+    c_current = c_next; % set current to calue of c next
+    c_results(k,:) = c_current; % Store c_current to file
 end
