@@ -1,3 +1,7 @@
+function [c_results] = Part1()
+% This function runs the code for part 1 fo the modilling and sinulation
+% assignment 2
+
 PathAdd(); % Add the correct folders to the path to allow all code to run
 
 % GENERATE A STRUCTURE OF THE RELEVENT PROBLEM VARIABLES
@@ -13,7 +17,19 @@ N = total_t/Data.dt; % Number of timesteps
 Data.VariedParamaters = 0; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 Data.Theta = 1; % Value difining the method to be used to solve the transient resonce. 0.5 for Crank Nicolson. 1 for Backward Euler
 
+if Data.VariedParamaters == 0
+    Data.D = 1; % Set fixed value of D
+    Data.lambda = 0; % Set fixed value of lambda
+    Data.f = 0; % Set fixed value of f
+elseif Data.VariedParamaters ==1
+else
+    error('Please enter either 0 or 1 for Data.VariedParamaters')
+end
 
+% INITIALISE DATA MESH
+msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
+
+% SET UP BOUNDARY CONDITIONS
 BC1T = 'D'; % Define type of BC 1
 BC1V = 0; % Value of BC1
 BC2T = 'D'; % Define type of BC 2
@@ -24,31 +40,44 @@ InitialCon = 0; % Initial condition of the problem in time
 time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
 x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax;
 
-c_current = InitialCon;
+c_current(Data.Ne+1, 1) = InitialCon;
 c_results = zeros(N,Data.Ne+1);
-c_results(1,:) = c_current; 
-[Global_Mat_current, Global_Mat_K_current, Global_Mat_M_current, SourceGlobal_Vec_current] = Trans_FEM_BC(BC1T,BC1V,BC2T,BC2V, Data);
+c_results(1,:) = c_current;
+
+% INITIALISE MATRACIES
+Global_Mat_K = zeros(Data.Ne+1);
+Global_Mat_M = zeros(Data.Ne+1);
+Global_Mat = zeros(Data.Ne+1);
+Global_Vec = zeros(Data.Ne+1, 1);
 
 for k  = 2:N+1
-    [Global_Mat_next, Global_Mat_K_next, Global_Mat_M_next, SourceGlobal_Vec_next] = Trans_FEM_BC(BC1T,BC1V,BC2T,BC2V, Data);
+    % CALCULATE THE GLOBAL MATRIX AND VECTOR
+    [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M);
     
-    % Calculate the matrix to multiply to the previous solution
-    A = Global_Mat_M_next-((1-Data.Theta)*Data.dt*Global_Mat_K_next);
+    % APPLY BOUNDARY CONDITIONS
+    [Global_Mat, Global_Vec] = ApplyBC(BC1T,BC1V,BC2T,BC2V, Data, Global_Mat, Global_Vec);
     
-    % Multiply the above by the previous solution
-    Ac = A*c_current;
-    
-    B = Data.dt*Data.Theta*(SourceGlobal_Vec_next);
-    
-    C = Data.dt*(1-Data.Theta)*(SourceGlobal_Vec_current);
-
-    Global_Vector = Ac + B + C; % Caluclate the global source vector
-    
-    c_next = Global_Mat_next\SourceGlobal_Vec_next; % generate the solution at the next point
+    c_next = Global_Mat\Global_Vec; % generate the solution at the next point
     
     c_current = c_next; % set current to calue of c next
     c_results(k,:) = c_current'; % Store c_current to file
-    figure(1)
-    hold on
-    plot(x,c_results(k,:))
+    
+    % REINITIALISE MATRACIES
+    Global_Mat_K = zeros(Data.Ne+1);
+    Global_Mat_M = zeros(Data.Ne+1);
+    Global_Mat = zeros(Data.Ne+1);
+    Global_Vec = zeros(Data.Ne+1, 1);
+    
+end
+
+%PLOT RESULTS
+figure(1)
+xlabel('x, mm')
+ylabel('Tepturature, K')
+plot(x, c_results((1+0.05/0.01),:)
+plot(x, c_results((1+0.1/0.01),:)
+plot(x, c_results((1+0.3/0.01),:)
+plot(x, c_results((1+0.05/1),:)
+length(x)
+
 end
