@@ -21,6 +21,15 @@ msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 
 % GENERATE LOCAL ELEMENT MATRACIERS FOR ALL ELEMENTS
 for i = 1:Data.Ne
+    
+    if Data.VariedParam ==1 % Check if paramature values vary with x
+        Data = EquationConstants(msh.nvec, Data); % Run function to get the value of f, D and lambda at the x point (nvec)
+    elseif Data.VariedParam == 0 % If they don't vary
+        Data.D = 1; % Set fixed value of D
+        Data.lambda = 0; % Set fixed value of lambda
+        Data.f = 0; % Set fixed value of f
+    end
+    
     Mass(i).Local = LocalElementMat_Mass(i, msh); % Generate the local element mass matrix for element i
     
     Diffusion(i).Local = LaplaceElemMatrix(Data.D, i, msh); % Generate the local element diffution matrix for element i
