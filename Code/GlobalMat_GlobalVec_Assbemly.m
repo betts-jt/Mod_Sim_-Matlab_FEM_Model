@@ -1,4 +1,4 @@
-function [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, C_current, Data, Global_Mat_K, Global_Mat_M, SourceVec_Current)
+function [Global_Mat, Global_Vec, SourceVec_next] = GlobalMat_GlobalVec_Assbemly(msh, C_current, Data, Global_Mat_K, Global_Mat_M, SourceVec_Current, SourceVec_next)
 % This is a fuction to generate the global matrix and global vector for a
 % give mesh and intiial conditions.
 %   msh = the mesh being investigated
@@ -15,7 +15,8 @@ for i = 1:Data.Ne
     Mass_Local = LocalElementMat_Mass(i, msh); % Generate the local element mass matrix for element i
     
     Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh); % Generate the local element diffution matrix for element i
-    Source_local 
+    Source_Local_next = LocalElementVec_Source(Data.f, i, msh);
+
     if Data.reactionNeeded == 1 % Check if the reaction matrix is required
         Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh); % Generate the local element reaction matrix for element i
         Stiffness_Local = Diffusion_Local - Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
@@ -30,7 +31,7 @@ for i = 1:Data.Ne
     % This correctly sums the overlapping values on the diagonal.
     Global_Mat_K(i:i+1,i:i+1) =  Global_Mat_K(i:i+1,i:i+1)+Stiffness_Local;
     Global_Mat_M(i:i+1,i:i+1) =  Global_Mat_M(i:i+1,i:i+1)+Mass_Local;
-    SourceVec_next = 
+    SourceVec_next = SourceVec_next(i:i+1) + Source_Local_next'
 end
 
 Global_Mat = Global_Mat_M + Data.Theta* Data.dt .* Global_Mat_K; % Caluclate the global matrix

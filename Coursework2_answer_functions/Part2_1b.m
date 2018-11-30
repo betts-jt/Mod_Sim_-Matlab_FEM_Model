@@ -70,10 +70,12 @@ Global_Mat_K = zeros(Data.Ne+1);
 Global_Mat_M = zeros(Data.Ne+1);
 Global_Mat = zeros(Data.Ne+1);
 Global_Vec = zeros(Data.Ne+1, 1);
+SourceVec_current = zeros(Data.Ne+1,1);
+SourceVec_next = zeros(Data.Ne+1,1);
 
 for k  = 2:N+1
     % CALCULATE THE GLOBAL MATRIX AND VECTOR
-    [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M);
+    [Global_Mat, Global_Vec, SourceVec_next] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec_current, SourceVec_next);
     
     % APPLY BOUNDARY CONDITIONS
     [Global_Mat, Global_Vec] = ApplyBC(BC1T,BC1V,BC2T,BC2V, Data, Global_Mat, Global_Vec);
@@ -92,6 +94,8 @@ for k  = 2:N+1
     Global_Mat_M = zeros(Data.Ne+1);
     Global_Mat = zeros(Data.Ne+1);
     Global_Vec = zeros(Data.Ne+1, 1);
+    SourceVec_Current = zeros(Data.Ne+1,1);
+    SourceVec_next = zeros(Data.Ne+1,1);
     
     % Check if optimisation is taking place
     if optimise == 0 % Answer is not being optimised. Plot graphs
@@ -105,7 +109,10 @@ for k  = 2:N+1
         error('Enter either 0, or 1 for the variable optimise')
     end
     
+    SourceVec_current = SourceVec_next;
+    
     % DETERNIME IF BURNING OCCURS/WHEN
     [Gamma BurningStart]= TissueDamage(Data, TempE, time);
     
+end
 end
