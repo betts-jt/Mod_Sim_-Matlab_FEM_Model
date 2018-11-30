@@ -99,9 +99,9 @@ end
 figure(1)
 hold on
 plot(x, c_results(1+(0.05/0.01),:), '+-')
-plot(x, c_results(1+(0.1/0.01,:)), '+-')
-plot(x, c_results(1+(0.3/0.01,:)), '+-')
-plot(x, c_results((1+1/0.01,:)), '+-')
+plot(x, c_results(1+(0.1/0.01),:), '+-')
+plot(x, c_results(1+(0.3/0.01),:), '+-')
+plot(x, c_results((1+1/0.01),:), '+-')
 title('Numberical Tempurature Distributions')
 xlabel('x, mm')
 ylabel('Tepturature, K')
