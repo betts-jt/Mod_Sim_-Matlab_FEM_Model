@@ -16,7 +16,8 @@ if nvec <= E % If the point is in the Epidermis
     c = 3300;
 elseif nvec > E && nvec <= D % If the point is in the Epidermis
     k = 40;
-    G = 0;
+    %G = 0; %For part 2 1b
+    G = 0.0375; %For part 2, 2
     rho = 1200;
     c = 3300;
     rho_b = 1060;
@@ -24,8 +25,9 @@ elseif nvec > E && nvec <= D % If the point is in the Epidermis
     T_b = 310.15;
 elseif nvec >D && nvec <= B
     k = 20;
-    G = 0;
-    rho = 1200;
+    %G = 0; %For part 2 1b
+    G = 0.0375; %For part 2, 2
+    rho = 1200;  
     c = 3300;
     rho_b = 1060;
     c_b = 3770;
@@ -39,7 +41,7 @@ if nvec <= E
     Data.f = 0;
 else
     Data.D = k/(rho*c); % Calculate the diffution coefficient
-    Data.lambda = (G*rho_b*c_b)/(rho*c); % Calucalteing the reaction coefficient
+    Data.lambda = -(G*rho_b*c_b)/(rho*c); % Calucalteing the reaction coefficient
     Data.f = (G*rho_b*c_b)/(rho*c)*T_b; % Calculating the source term
 end
 end
