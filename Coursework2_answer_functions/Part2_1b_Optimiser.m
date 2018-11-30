@@ -9,6 +9,7 @@ for k = 1:length(timeSteps)
     SkinTemp = [TempMin:(TempMax-TempMin)/(N-1):TempMax];
     % DISPLAY CURRENT TESTING CONDITIONS
     disp('***********************************')
+    disp(['Loop ' num2str(k) ' of ' num2str(length(timeSteps))])
     disp(['Current Timestep = ' num2str(timeSteps(k)) 's'])
     disp(['Testing between ' num2str(TempMin) 'K and ' num2str(TempMax) 'K'])
     disp('***********************************')
