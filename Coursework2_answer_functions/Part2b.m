@@ -1,4 +1,4 @@
-function [Gamma, BurningStart] = Part2b(SurfaceTemp)
+function [Gamma, BurningStart] = Part2b(SurfaceTemp, optimise)
 % This function runs the code for part 1 fo the modilling and sinulation
 % assignment 2
 
@@ -15,20 +15,26 @@ total_t = 50; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
-%{
-% Allow used to select solving method
-answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
-% Handle response
-switch answer
-    case 'Crank-Nicolson'
-        disp([answer ' is the selected solving method'])
-        Data.Theta = 0.5;
-    case 'Backwards Euler'
-        disp([answer '  is the selected solving method'])
-        Data.Theta = 1;
+
+% Check if the code if running once or though an optimiser
+if optimise == 0 % No optimisation in taking place
+    % Allow used to select solving method
+    answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
+    % Handle response
+    switch answer
+        case 'Crank-Nicolson'
+            disp([answer ' is the selected solving method'])
+            Data.Theta = 0.5;
+        case 'Backwards Euler'
+            disp([answer '  is the selected solving method'])
+            Data.Theta = 1;
+    end
+elseif optimise ==1 % Optimisation is taking place
+    Data.Theta = 1; % Set the solving method used in the optimiser
+else
+    error('Enter either 0, or 1 for the variable optimise')
 end
-%}
-Data.Theta = 1;
+
 if Data.VariedParamaters == 0
     Data.D = 1; % Set fixed value of D
     Data.lambda = 0; % Set fixed value of lambda
@@ -84,16 +90,20 @@ for k  = 2:N+1
     Global_Mat_M = zeros(Data.Ne+1);
     Global_Mat = zeros(Data.Ne+1);
     Global_Vec = zeros(Data.Ne+1, 1);
-    %{
-    figure(1)
-    plot(x,c_results(k,:)')
-    ylabel('Tempurature, K')
-    xlabel('Distance through skin, mm')
-    legend(['Current Time ' num2str(time(k)) 's'], 'Location', 'NorthWest')
-   %}
-end
-
-% DETERNIME IF BURNING OCCURS/WHEN
-[Gamma BurningStart]= TissueDamage(Data, TempE, time);
-
+    
+    % Check if optimisation is taking place
+    if optimise == 0 % Answer is not being optimised. Plot graphs
+        figure(1)
+        plot(x,c_results(k,:)')
+        ylabel('Tempurature, K')
+        xlabel('Distance through skin, mm')
+        legend(['Current Time ' num2str(time(k)) 's'], 'Location', 'NorthWest')
+    elseif optimise ==1 % Answer is being optimised. Don't plot graphs
+    else
+        error('Enter either 0, or 1 for the variable optimise')
+    end
+    
+    % DETERNIME IF BURNING OCCURS/WHEN
+    [Gamma BurningStart]= TissueDamage(Data, TempE, time);
+    
 end
