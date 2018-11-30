@@ -11,6 +11,8 @@ Data.Ne = 10; % Numeber of elements in the mesh
 Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 Data.dt = 0.01; % Timestep for transient responce
+Data.GN = 2; % Set number of N from gausian quadriture
+
 total_t = 1; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
@@ -59,10 +61,12 @@ Global_Mat_K = zeros(Data.Ne+1);
 Global_Mat_M = zeros(Data.Ne+1);
 Global_Mat = zeros(Data.Ne+1);
 Global_Vec = zeros(Data.Ne+1, 1);
+SourceVec_current = zeros(Data.Ne+1,1);
+SourceVec_next = zeros(Data.Ne+1,1);
 
 for k  = 2:N+1
     % CALCULATE THE GLOBAL MATRIX AND VECTOR
-    [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M);
+    [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec_current, SourceVec_next);
     
     % APPLY BOUNDARY CONDITIONS
     [Global_Mat, Global_Vec] = ApplyBC(BC1T,BC1V,BC2T,BC2V, Data, Global_Mat, Global_Vec);
@@ -88,16 +92,28 @@ plot(x, c_results(1+0.05/0.01,:), '+-')
 plot(x, c_results(1+0.1/0.01,:), '+-')
 plot(x, c_results(1+0.3/0.01,:), '+-')
 plot(x, c_results(1+1/0.01,:), '+-')
-title('Tempurature Distribution at Different Times')
+title('Numberical Tempurature Distributions')
 xlabel('x, mm')
 ylabel('Tepturature, K')
-legend('t=0.05','t=0.1','t=0.3','t=1', 'Location', 'NorthWest')
+
+c1  = TransientAnalyticSoln(x,0.05);
+c2  = TransientAnalyticSoln(x,0.1);
+c3  = TransientAnalyticSoln(x,0.3);
+c4  = TransientAnalyticSoln(x,1);
+plot(x, c1, 'k--')
+plot(x, c2, 'k--')
+plot(x, c3, 'k--')
+plot(x, c4, 'k--')
+title('Analytical Tempurature Distribution')
+xlabel('x, mm')
+ylabel('Tepturature, K')
+legend('t=0.05','t=0.1','t=0.3','t=1', 'Analytical Solutions', 'Location', 'NorthWest')
 
 %% Plot analytical solution vs numerical solution
 for i=1:N+1
     c(i)  = TransientAnalyticSoln(0.8,time(i));
 end
-figure(2)
+figure(3)
 hold on
 plot(time, c_results(:,1+8), 'ro-')
 plot(time, c, 'b-')
@@ -107,7 +123,7 @@ ylabel('c(x,t)')
 legend('Numerical Solution', 'Analytical solution', 'Location' , 'SouthEast')
 
 %% Plot difference between numerical and analytical
-figure(3)
+figure(4)
 plot(time,c-c_results(:,1+8)')
 title('Error Between Numerical and Analytical Solutions')
 xlabel('t, s')
