@@ -18,7 +18,7 @@ for i = 1:Data.Ne
     Source_Local_next = LocalElementVec_Source(Data.f, i, msh);
 
     if Data.reactionNeeded == 1 % Check if the reaction matrix is required
-        Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh); % Generate the local element reaction matrix for element i
+        Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
         Stiffness_Local = Diffusion_Local - Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
     elseif Data.reactionNeeded == 0 % If reaction term is not needed
         Stiffness_Local = Diffusion_Local; % Calculate the overall local element matrix of the left hand side of the equation if the reaction term isn't needed
