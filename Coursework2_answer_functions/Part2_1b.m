@@ -76,6 +76,14 @@ c_results = zeros(N,Data.Ne+1);
 c_results(1,:) = c_current;
 TempE(1) = InitialCon;
 
+% Apply BC to this initial solution (only aplies to Dirichlet)
+if BC1T == 'D'
+    c_current(1,1) = BC1V; % Set start value to the value of BC1
+end
+if BC2T == 'D'
+    c_current(end,1) = BC2V; % Set last value to that of BC2
+end
+
 % INITIALISE MATRACIES
 Global_Mat_K = zeros(Data.Ne+1);
 Global_Mat_M = zeros(Data.Ne+1);
