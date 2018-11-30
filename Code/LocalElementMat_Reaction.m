@@ -1,4 +1,4 @@
-function [LocalElementMat_Reaction] = LocalElementMat_Reaction(llambda, eID, msh)
+function [LocalElementMat_Reaction] = LocalElementMat_Reaction(lambda, eID, msh, GN)
 %This fuction calculates the local 2-by-2 element matrix for the reaction 
 %operator, which can calculate this matrix for an arbitrary element eN 
 %defined between the points x0 and x1
@@ -10,13 +10,22 @@ function [LocalElementMat_Reaction] = LocalElementMat_Reaction(llambda, eID, msh
 
 J = msh.elem(eID).J; % Drawing in the Jacobian of the element being analysed
 
-% Calculate the value of Int00/Int11. See coursework assignment report, part 1b,
-% for derrivation of this short hand integral.
-Int00 = llambda*J*2/3; 
-% Calculate the value of Int01/Int10. See courseworw assignment, part 1b,
-% for derrivation of this short hand integral.
-Int01 = llambda*J*1/3; 
+% IMPLIMENTING GAUSSIAN QUADRATURE
+N=GN;
+[gq] = CreateGQScheme(N); %Creating the values of gaussian quadrature
+
+% Setting up initial values of the local element matrix
+Int00 = 0;
+Int01 = 0;
+Int11 = 0;
+
+for k=1:N
+    Int00 = Int00 + gq.wi(k) * (lambda*J/4) * (1-gq.Xi(k))^2;
+    Int01 = Int01 + gq.wi(k) * (lambda*J/4) * (1-gq.Xi(k))*(1+gq.Xi(k));
+    Int11 = Int11 + gq.wi(k) * (lambda*J/4) * (1+gq.Xi(k))^2;
+end
 
 LocalElementMat_Reaction = [Int00 Int01; Int01 Int00]; % Generate the local element reaction matrix
 end
+
 
