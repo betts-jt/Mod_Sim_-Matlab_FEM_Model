@@ -42,7 +42,8 @@ if nvec <= E
 else
     Data.D = k/(rho*c); % Calculate the diffution coefficient
     Data.lambda = -(G*rho_b*c_b)/(rho*c); % Calucalteing the reaction coefficient
-    Data.f = (G*rho_b*c_b)/(rho*c)*T_b; % Calculating the source term
+    Data.f = ((G*rho_b*c_b)/(rho*c))*T_b; % Calculating the source term
+
 end
 end
 
