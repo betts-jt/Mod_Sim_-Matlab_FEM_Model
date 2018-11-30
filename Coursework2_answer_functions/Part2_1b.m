@@ -14,7 +14,7 @@ Data.Ne = 600; % Numeber of elements in the mesh
 Data. reactionNeeded = 1; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 Data.dt = timeStep; % Timestep for transient responce
-total_t = 50; % Total time for analysis
+total_t = 10; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
@@ -44,7 +44,7 @@ end
 %SET N FOR GAUSSIAN QUADRITURE SCHEME
 Data.GN = 2;
 
-            
+
 
 % SET SOLVING PERAMATERS
 if Data.VariedParamaters == 0
@@ -74,6 +74,7 @@ c_current=zeros(Data.Ne+1, 1);
 c_current(:,1) = InitialCon;
 c_results = zeros(N,Data.Ne+1);
 c_results(1,:) = c_current;
+TempE(1) = InitialCon;
 
 % INITIALISE MATRACIES
 Global_Mat_K = zeros(Data.Ne+1);
@@ -97,7 +98,7 @@ for k  = 2:N+1
     
     % FIND TEMPURATURE AT POINT E
     [E_point] =find(round(msh.nvec, 9)==0.001666667); % find when x = E (0.00166667)
-    TempE(k-1) = c_results(k, E_point);
+    TempE(k) = c_results(k, E_point);
     
     SourceVec_current = SourceVec_next;
     
@@ -120,8 +121,7 @@ for k  = 2:N+1
         error('Enter either 0, or 1 for the variable optimise')
     end
     
-    % DETERNIME IF BURNING OCCURS/WHEN
-    [Gamma BurningStart]= TissueDamage(Data, TempE, time);
-    
 end
+% DETERNIME IF BURNING OCCURS/WHEN
+[Gamma BurningStart]= TissueDamage(Data, TempE, time);
 end
