@@ -14,7 +14,7 @@ for i = 1:Data.Ne
     % LOCAL ELEMENT MATRACIES
     Mass_Local = LocalElementMat_Mass(i, msh); % Generate the local element mass matrix for element i
     
-    Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh); % Generate the local element diffution matrix for element i
+    Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh, Data.GN); % Generate the local element diffution matrix for element i
     Source_Local_next = LocalElementVec_Source(Data.f, i, msh);
 
     if Data.reactionNeeded == 1 % Check if the reaction matrix is required
