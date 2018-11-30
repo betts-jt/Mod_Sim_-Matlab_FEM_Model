@@ -37,10 +37,11 @@ for k  = 2:Data.N+1
     c_current = c_next; % set current to calue of c next
     c_results(k,:) = c_current'; % Store c_current to file
     
+    %{
     % FIND TEMPURATURE AT POINT E
-    [E_point] =find(round(msh.nvec, 5)==0.001667); % find when x = E (0.00166667)
+    [E_point] =find(round(msh.nvec, 9)==0.001666667); % find when x = E (0.00166667)
     Data.TempE(k) = c_results(k, E_point);
-    
+    %}
     
     SourceVec_current = SourceVec_next;
     
