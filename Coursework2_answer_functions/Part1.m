@@ -3,6 +3,18 @@ clc
 close all
 
 PathAdd(); % Add the correct folders to the path to allow all code to run
+% SELECT SOLVING METHOD
+% Allow user to select solving method
+answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
+% Handle response
+switch answer
+    case 'Crank-Nicolson'
+        disp([answer ' is the selected solving method'])
+        Data.Theta = 0.5;
+    case 'Backwards Euler'
+        disp([answer '  is the selected solving method'])
+        Data.Theta = 1;
+end
 
 % GENERATE A STRUCTURE OF THE RELEVENT PROBLEM VARIABLES
 Data.xmin = 0; % Minimum vale of x for the elements
@@ -90,5 +102,13 @@ ylabel('c(x,t)')
 
 
 %% Plot Unstability of crank nicolson method compared to Euler
+%t=0.3
+%x=0.5
+timestep = [0.001:(0.25-0.001)/9:0.25];
+cActual = TransientAnalyticSoln(0.8,0.3);
 
-
+Data.Theta = 1;
+for i = 1:length(timestep)
+    Data.dt = timestep(i);
+   [c_E, ~] = TransientFEMSolver(Data);
+end
