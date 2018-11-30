@@ -1,4 +1,22 @@
 function [c_results, Data] = TransientFEMSolver_Part2(Data)
+% This function solves a transient FEM problem given an input data
+%structure D. In this data structure;
+%   Data.xmin = Minimum vale of x for the elements
+%   Data.xmax = Maximum vale of x for the elements
+%   Data.Ne = Number of elements in the mesh
+%   Data.dt = Timestep for transient responce
+%   Data.VariedParameters = Value is either 1 if the equation parameters vary with x or 0 if they dont
+%   Data.GN = N value for gausian quadriture
+%   Data.optimise = Add optimise value ot data structurre
+%   Data.N = Number of timesteps
+%   Data.time = Array of times for each timestep. Between 0 and max time
+%       (length N)
+%   Data.x = Array of x values between xmin and xmax. (length Ne)
+%   Data.BC1T = Define type of BC 1. 'D' or dirichlet/'N' for Neumann
+%   Data.BC1V = Value of BC1
+%   Data.BC2T = Define type of BC 2. 'D' or dirichlet/'N' for Neumann
+%   Data.BC2V = Value of BC2
+%   Data.InitialCon = Initial condition of transient responce.
 
 % SELECT SOLVING METHOD
 % Check if the code if running once or though an optimiser
