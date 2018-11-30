@@ -11,8 +11,6 @@ PathAdd(); % Add the correct folders to the path to allow all code to run
 Data.xmin = 0; % Minimum vale of x for the elements
 Data.xmax = 0.01; % Maximum vale of x for the elements
 Data.Ne = 600; % Numeber of elements in the mesh
-Data. reactionNeeded = 1; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
-Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 Data.dt = timeStep; % Timestep for transient responce
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 Data.GN = 2; % N value for gausian quadriture

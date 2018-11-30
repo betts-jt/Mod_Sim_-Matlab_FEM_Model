@@ -8,7 +8,7 @@ function [Global_Mat, Global_Vec, SourceVec_next] = GlobalMat_GlobalVec_Assbemly
 
 for i = 1:Data.Ne
     if Data.VariedParamaters == 1
-    [Data] = EquationConstants(msh.nvec(i+1), Data);
+        [Data] = EquationConstants(msh.nvec(i+1), Data);
     else
     end
     % LOCAL ELEMENT MATRACIES
@@ -16,15 +16,11 @@ for i = 1:Data.Ne
     
     Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh, Data.GN); % Generate the local element diffution matrix for element i
     Source_Local_next = LocalElementVec_Source(Data.f, i, msh);
-
-    if Data.reactionNeeded == 1 % Check if the reaction matrix is required
-        Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
-        Stiffness_Local = Diffusion_Local - Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
-    elseif Data.reactionNeeded == 0 % If reaction term is not needed
-        Stiffness_Local = Diffusion_Local; % Calculate the overall local element matrix of the left hand side of the equation if the reaction term isn't needed
-    else
-        error('Enter either 0 or 1 for Data.reactionNeeded')
-    end
+    
+    
+    Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
+    Stiffness_Local = Diffusion_Local - Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
+    
     
     % GLOBAL MATRACIES
     % Form the global matrix by adding the local elements to the previous loops global element matrix.
