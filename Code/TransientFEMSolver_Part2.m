@@ -1,4 +1,4 @@
-function [c_results, Data] = TransientFEMSolver(Data)
+function [c_results, Data] = TransientFEMSolver_Part2(Data)
 
 % INITIALISE DATA MESH
 msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
@@ -40,7 +40,7 @@ for k  = 2:Data.N+1
     
     % FIND TEMPURATURE AT POINT E
     [E_point] =find(round(msh.nvec, 9)==0.001666667); % find when x = E (0.00166667)
-    Data.TempE(k) = c_results(k, E_point);
+    TempE(k) = c_results(k, E_point);
     
     
     SourceVec_current = SourceVec_next;
@@ -57,10 +57,11 @@ for k  = 2:Data.N+1
         plot(Data.x,c_results(k,:)')
         ylabel('Tempurature, K')
         xlabel('Distance through skin, mm')
-        legend(['Current Time ' num2str(time(k)) 's'], 'Location', 'NorthWest')
+        legend(['Current Time ' num2str(Data.time(k)) 's'], 'Location', 'NorthWest')
     elseif Data.optimise ==1 % Answer is being optimised. Don't plot graphs
     else
         error('Enter either 0, or 1 for the variable optimise')
     end
 end
+Data.TempE = TempE(1,:)
 end
