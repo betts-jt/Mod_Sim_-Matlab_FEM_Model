@@ -81,8 +81,10 @@ legend('Numerical Solution', 'Analytical solution', 'Location' , 'SouthEast')
 
 %% Plot difference between numerical and analytical
 figure(4)
+hold on
 plot(time,c-c_results(:,1+8)')
 title('Error Between Numerical and Analytical Solutions')
+plot([0 1], [0 0], 'k-')
 xlabel('t, s')
 ylabel('c(x,t)')
 
