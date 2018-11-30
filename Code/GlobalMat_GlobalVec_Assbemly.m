@@ -31,10 +31,12 @@ for i = 1:Data.Ne
     % This correctly sums the overlapping values on the diagonal.
     Global_Mat_K(i:i+1,i:i+1) =  Global_Mat_K(i:i+1,i:i+1)+Stiffness_Local;
     Global_Mat_M(i:i+1,i:i+1) =  Global_Mat_M(i:i+1,i:i+1)+Mass_Local;
-    SourceVec_next = SourceVec_next(i:i+1) + Source_Local_next'
+    SourceVec_next(i:i+1,1) = SourceVec_next(i:i+1) + Source_Local_next';
 end
 
+SourceVecComponent_GV = Data.dt*(Data.Theta*SourceVec_next+(1-Data.Theta)*SourceVec_Current);
+
 Global_Mat = Global_Mat_M + Data.Theta* Data.dt .* Global_Mat_K; % Caluclate the global matrix
-Global_Vec = (Global_Mat_M - (1-Data.Theta) * Data.dt * Global_Mat_K) * C_current; % Calculate the global vector
+Global_Vec = ((Global_Mat_M - (1-Data.Theta) * Data.dt * Global_Mat_K) * C_current)+SourceVecComponent_GV; % Calculate the global vector
 
 end

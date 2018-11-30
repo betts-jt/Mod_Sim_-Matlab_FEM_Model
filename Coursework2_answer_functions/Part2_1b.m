@@ -89,12 +89,13 @@ for k  = 2:N+1
     [E_point] =find(round(msh.nvec, 9)==0.001666667); % find when x = E (0.00166667)
     TempE(k-1) = c_results(k, E_point);
     
+    SourceVec_current = SourceVec_next;
+    
     % REINITIALISE MATRACIES
     Global_Mat_K = zeros(Data.Ne+1);
     Global_Mat_M = zeros(Data.Ne+1);
     Global_Mat = zeros(Data.Ne+1);
     Global_Vec = zeros(Data.Ne+1, 1);
-    SourceVec_Current = zeros(Data.Ne+1,1);
     SourceVec_next = zeros(Data.Ne+1,1);
     
     % Check if optimisation is taking place
@@ -108,8 +109,6 @@ for k  = 2:N+1
     else
         error('Enter either 0, or 1 for the variable optimise')
     end
-    
-    SourceVec_current = SourceVec_next;
     
     % DETERNIME IF BURNING OCCURS/WHEN
     [Gamma BurningStart]= TissueDamage(Data, TempE, time);
