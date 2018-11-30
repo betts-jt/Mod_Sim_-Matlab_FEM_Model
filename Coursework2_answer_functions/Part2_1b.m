@@ -19,6 +19,7 @@ N = total_t/Data.dt; % Number of timesteps
 
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 
+% SELECT SOLVING METHOD
 % Check if the code if running once or though an optimiser
 if optimise == 0 % No optimisation in taking place
     % Allow used to select solving method
@@ -26,9 +27,11 @@ if optimise == 0 % No optimisation in taking place
     % Handle response
     switch answer
         case 'Crank-Nicolson'
+            disp('***********************************')
             disp([answer ' is the selected solving method'])
             Data.Theta = 0.5;
         case 'Backwards Euler'
+            disp('***********************************')
             disp([answer '  is the selected solving method'])
             Data.Theta = 1;
     end
@@ -38,6 +41,33 @@ else
     error('Enter either 0, or 1 for the variable optimise')
 end
 
+%SELECT N FOR GAUSSIAN QUADRITURE SCHEME
+% Check if the code if running once or though an optimiser
+if optimise == 0 % No optimisation in taking place
+    % Allow used to select a value of n
+    answer = questdlg('Select a value of N for Gaussian Quadriture' ,'Value of N','1', '2', '3','2');
+    % Handle response
+    switch answer
+        case '1'
+            disp(['The selected vaule of N for Gaussian Quadriture = ' answer])
+            disp('***********************************')
+            Data.GN = 1;
+        case '2'
+            disp(['The selected vaule of N for Gaussian Quadriture = ' answer])
+            disp('***********************************')
+            Data.GN =2;
+        case '3'
+            disp(['The selected vaule of N for Gaussian Quadriture = ' answer])
+            disp('***********************************')
+            Data.GN = 3;
+    end
+elseif optimise ==1 % Optimisation is taking place
+    Data.GN = 2; % Set the solving method used in the optimiser
+else
+    error('Enter either 0, or 1 for the variable optimise')
+end
+
+% SET SOLVING PERAMATERS
 if Data.VariedParamaters == 0
     Data.D = 1; % Set fixed value of D
     Data.lambda = 0; % Set fixed value of lambda
