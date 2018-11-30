@@ -1,8 +1,9 @@
-function [Gamma, BurningStart] = Part2_1b(SurfaceTemp, optimise)
+function [Gamma, BurningStart] = Part2_1b(SurfaceTemp, optimise, timeStep)
 % This function runs the code for part 1 fo the modilling and sinulation
 % assignment 2
 %   SurfaceTemp = initial condition on surface of skin
 %   optimise = 1 is the code is being optimised. 0 is not.
+%   timeStep = Timestep to use for transient solver
 
 PathAdd(); % Add the correct folders to the path to allow all code to run
 
@@ -12,7 +13,7 @@ Data.xmax = 0.01; % Maximum vale of x for the elements
 Data.Ne = 600; % Numeber of elements in the mesh
 Data. reactionNeeded = 1; % Value is either 1 is the problem needs the local element matracies due to reaction need to be calcualted or 0 is these are not needed
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
-Data.dt = 0.5; % Timestep for transient responce
+Data.dt = timeStep; % Timestep for transient responce
 total_t = 50; % Total time for analysis
 N = total_t/Data.dt; % Number of timesteps
 
