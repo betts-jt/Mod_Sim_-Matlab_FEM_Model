@@ -13,7 +13,9 @@ SourceVec_next = zeros(Data.Ne+1,1);
 
 %RUN TRANSIENT SOLVER
 % Set current time result based on the initial condition given in the problem
-c_current(Data.Ne+1,1) = Data.InitialCon;
+c_current=zeros(Data.Ne+1, 1);
+c_current(:,1) = Data.InitialCon;
+c_current(Data.Ne+1,1) = 310.15;
 c_results = zeros(Data.N,Data.Ne+1);
 c_results(1,:) = c_current;
 
@@ -63,5 +65,5 @@ for k  = 2:Data.N+1
         error('Enter either 0, or 1 for the variable optimise')
     end
 end
-Data.TempE = TempE(1,:)
+Data.TempE = TempE;
 end
