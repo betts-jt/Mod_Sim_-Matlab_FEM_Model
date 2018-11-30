@@ -20,17 +20,7 @@ time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
 Data.x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax; % Calculate the x position of each point
 
 Data.VariedParamaters = 0; % Value is either 1 if the equation parameters vary with x or 0 if they dont
-% Allow used to select solving method
-answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
-% Handle response
-switch answer
-    case 'Crank-Nicolson'
-        disp([answer ' is the selected solving method'])
-        Data.Theta = 0.5;
-    case 'Backwards Euler'
-        disp([answer '  is the selected solving method'])
-        Data.Theta = 1;
-end
+
 
 if Data.VariedParamaters == 0
     Data.D = 1; % Set fixed value of D

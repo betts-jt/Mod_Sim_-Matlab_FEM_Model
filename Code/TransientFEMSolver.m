@@ -1,5 +1,18 @@
 function [c_results, Data] = TransientFEMSolver(Data)
 
+% SELECT SOLVING METHOD
+% Allow user to select solving method
+answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
+% Handle response
+switch answer
+    case 'Crank-Nicolson'
+        disp([answer ' is the selected solving method'])
+        Data.Theta = 0.5;
+    case 'Backwards Euler'
+        disp([answer '  is the selected solving method'])
+        Data.Theta = 1;
+end
+
 % INITIALISE DATA MESH
 msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 

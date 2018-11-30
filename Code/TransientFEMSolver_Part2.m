@@ -1,5 +1,27 @@
 function [c_results, Data] = TransientFEMSolver_Part2(Data)
 
+% SELECT SOLVING METHOD
+% Check if the code if running once or though an optimiser
+if Data.optimise == 0 % No optimisation in taking place
+    % Allow used to select solving method
+    answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
+    % Handle response
+    switch answer
+        case 'Crank-Nicolson'
+            disp('***********************************')
+            disp([answer ' is the selected solving method'])
+            Data.Theta = 0.5;
+        case 'Backwards Euler'
+            disp('***********************************')
+            disp([answer '  is the selected solving method'])
+            Data.Theta = 1;
+    end
+elseif Data.optimise ==1 % Optimisation is taking place
+    Data.Theta = 1; % Set the solving method used in the optimiser
+else
+    error('Enter either 0, or 1 for the variable optimise')
+end
+
 % INITIALISE DATA MESH
 msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 
