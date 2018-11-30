@@ -37,6 +37,6 @@ end
 SourceVecComponent_GV = Data.dt*(Data.Theta*SourceVec_next+(1-Data.Theta)*SourceVec_Current);
 
 Global_Mat = Global_Mat_M + Data.Theta* Data.dt .* Global_Mat_K; % Caluclate the global matrix
-Global_Vec = ((Global_Mat_M - (1-Data.Theta) * Data.dt * Global_Mat_K) * C_current)+SourceVecComponent_GV; % Calculate the global vector
+Global_Vec = ((Global_Mat_M - ((1-Data.Theta) * Data.dt * Global_Mat_K)) * C_current)+SourceVecComponent_GV; % Calculate the global vector
 
 end
