@@ -1,6 +1,6 @@
-function [] = Part1()
-% This function runs the code for part 1 fo the modilling and sinulation
-% assignment 2
+clear
+clc
+close all
 
 PathAdd(); % Add the correct folders to the path to allow all code to run
 
@@ -52,9 +52,19 @@ InitialCon = 0; % Initial condition of the problem in time
 time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
 x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax;
 
+% Set current result based on the initial condition given in the problem
 c_current(Data.Ne+1, 1) = InitialCon;
 c_results = zeros(N,Data.Ne+1);
 c_results(1,:) = c_current;
+
+%apply BC to this initial solution (only aplies to Dirichlet)
+if BC1T == 'D'
+    c_current(1,1) = BC1V; % Set start value to the value of BC1
+end
+if BC2T == 'D'
+    c_current(end,1) = BC2V; % Set last value to that of BC2
+end
+
 
 % INITIALISE MATRACIES
 Global_Mat_K = zeros(Data.Ne+1);
@@ -88,10 +98,10 @@ end
 % Plot T distribution at different time values
 figure(1)
 hold on
-plot(x, c_results(1+0.05/0.01,:), '+-')
-plot(x, c_results(1+0.1/0.01,:), '+-')
-plot(x, c_results(1+0.3/0.01,:), '+-')
-plot(x, c_results(1+1/0.01,:), '+-')
+plot(x, c_results(1+(0.05/0.01),:), '+-')
+plot(x, c_results(1+(0.1/0.01,:)), '+-')
+plot(x, c_results(1+(0.3/0.01,:)), '+-')
+plot(x, c_results((1+1/0.01,:)), '+-')
 title('Numberical Tempurature Distributions')
 xlabel('x, mm')
 ylabel('Tepturature, K')
@@ -133,4 +143,3 @@ ylabel('c(x,t)')
 %% Plot Unstability of crank nicolson method compared to Euler
 
 
-end
