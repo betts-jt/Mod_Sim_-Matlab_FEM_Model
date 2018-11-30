@@ -1,4 +1,4 @@
-function [] = Part2a()
+function [] = Part2_1a()
 % This function runs the code for part 1 fo the modilling and sinulation
 % assignment 2
 
