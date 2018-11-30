@@ -118,13 +118,13 @@ for k  = 2:N+1
     SourceVec_next = zeros(Data.Ne+1,1);
     
     % Check if optimisation is taking place
-    if optimise == 0 % Answer is not being optimised. Plot graphs
+    if Data.optimise == 0 % Answer is not being optimised. Plot graphs
         figure(1)
         plot(x,c_results(k,:)')
         ylabel('Tempurature, K')
         xlabel('Distance through skin, mm')
         legend(['Current Time ' num2str(time(k)) 's'], 'Location', 'NorthWest')
-    elseif optimise ==1 % Answer is being optimised. Don't plot graphs
+    elseif Data.optimise ==1 % Answer is being optimised. Don't plot graphs
     else
         error('Enter either 0, or 1 for the variable optimise')
     end

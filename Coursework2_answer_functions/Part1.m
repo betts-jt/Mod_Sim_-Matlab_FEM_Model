@@ -12,9 +12,12 @@ Data. reactionNeeded = 0; % Value is either 1 is the problem needs the local ele
 Data.SourceTermConstant = 1; % Value defining whether the source term is constant
 Data.dt = 0.01; % Timestep for transient responce
 Data.GN = 2; % Set number of N from gausian quadriture
+Data.optimise = 1; %No optimisation is taking place
 
 total_t = 1; % Total time for analysis
-N = total_t/Data.dt; % Number of timesteps
+Data.N = total_t/Data.dt; % Number of timesteps
+time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
+Data.x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax; % Calculate the x position of each point
 
 Data.VariedParamaters = 0; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 % Allow used to select solving method
@@ -38,89 +41,45 @@ else
     error('Please enter either 0 or 1 for Data.VariedParamaters')
 end
 
-% INITIALISE DATA MESH
-msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
-
 % SET UP BOUNDARY CONDITIONS
-BC1T = 'D'; % Define type of BC 1
-BC1V = 0; % Value of BC1
-BC2T = 'D'; % Define type of BC 2
-BC2V = 1; % Value of BC2
+Data.BC1T = 'D'; % Define type of BC 1
+Data.BC1V = 0; % Value of BC1
+Data.BC2T = 'D'; % Define type of BC 2
+Data.BC2V = 1; % Value of BC2
 
-InitialCon = 0; % Initial condition of the problem in time
-
-time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
-x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax;
-
-% Set current result based on the initial condition given in the problem
-c_current(Data.Ne+1, 1) = InitialCon;
-c_results = zeros(N,Data.Ne+1);
-c_results(1,:) = c_current;
-
-%apply BC to this initial solution (only aplies to Dirichlet)
-if BC1T == 'D'
-    c_current(1,1) = BC1V; % Set start value to the value of BC1
-end
-if BC2T == 'D'
-    c_current(end,1) = BC2V; % Set last value to that of BC2
-end
+Data.InitialCon = 0; % Initial condition of the problem in time
 
 
-% INITIALISE MATRACIES
-Global_Mat_K = zeros(Data.Ne+1);
-Global_Mat_M = zeros(Data.Ne+1);
-Global_Mat = zeros(Data.Ne+1);
-Global_Vec = zeros(Data.Ne+1, 1);
-SourceVec_current = zeros(Data.Ne+1,1);
-SourceVec_next = zeros(Data.Ne+1,1);
-
-for k  = 2:N+1
-    % CALCULATE THE GLOBAL MATRIX AND VECTOR
-    [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec_current, SourceVec_next);
-    
-    % APPLY BOUNDARY CONDITIONS
-    [Global_Mat, Global_Vec] = ApplyBC(BC1T,BC1V,BC2T,BC2V, Data, Global_Mat, Global_Vec);
-    
-    c_next = Global_Mat\Global_Vec; % generate the solution at the next point
-    
-    c_current = c_next; % set current to calue of c next
-    c_results(k,:) = c_current'; % Store c_current to file
-    
-    % REINITIALISE MATRACIES
-    Global_Mat_K = zeros(Data.Ne+1);
-    Global_Mat_M = zeros(Data.Ne+1);
-    Global_Mat = zeros(Data.Ne+1);
-    Global_Vec = zeros(Data.Ne+1, 1);
-    
-end
+%% RUN TRANSIENT SOLVER
+[c_results, ~] = TransientFEMSolver(Data);
 
 %% PLOT RESULTS
 % Plot T distribution at different time values
 figure(1)
 hold on
-plot(x, c_results(1+(0.05/0.01),:), '+-')
-plot(x, c_results(1+(0.1/0.01),:), '+-')
-plot(x, c_results(1+(0.3/0.01),:), '+-')
-plot(x, c_results((1+1/0.01),:), '+-')
+plot(Data.x, c_results(1+(0.05/0.01),:), '+-')
+plot(Data.x, c_results(1+(0.1/0.01),:), '+-')
+plot(Data.x, c_results(1+(0.3/0.01),:), '+-')
+plot(Data.x, c_results((1+1/0.01),:), '+-')
 title('Numberical Tempurature Distributions')
 xlabel('x, mm')
 ylabel('Tepturature, K')
 
-c1  = TransientAnalyticSoln(x,0.05);
-c2  = TransientAnalyticSoln(x,0.1);
-c3  = TransientAnalyticSoln(x,0.3);
-c4  = TransientAnalyticSoln(x,1);
-plot(x, c1, 'k--')
-plot(x, c2, 'k--')
-plot(x, c3, 'k--')
-plot(x, c4, 'k--')
+c1  = TransientAnalyticSoln(Data.x,0.05);
+c2  = TransientAnalyticSoln(Data.x,0.1);
+c3  = TransientAnalyticSoln(Data.x,0.3);
+c4  = TransientAnalyticSoln(Data.x,1);
+plot(Data.x, c1, 'k--')
+plot(Data.x, c2, 'k--')
+plot(Data.x, c3, 'k--')
+plot(Data.x, c4, 'k--')
 title('Analytical Tempurature Distribution')
 xlabel('x, mm')
 ylabel('Tepturature, K')
 legend('t=0.05','t=0.1','t=0.3','t=1', 'Analytical Solutions', 'Location', 'NorthWest')
 
 %% Plot analytical solution vs numerical solution
-for i=1:N+1
+for i=1:Data.N+1
     c(i)  = TransientAnalyticSoln(0.8,time(i));
 end
 figure(3)
