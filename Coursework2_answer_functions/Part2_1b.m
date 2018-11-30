@@ -18,7 +18,7 @@ Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary w
 Data.GN = 2; % N value for gausian quadriture
 Data.optimise = optimise; % Add optimise value ot data structurre
 
-total_t = 10; % Total time for analysis
+total_t = 50; % Total time for analysis
 Data.N = total_t/Data.dt; % Number of timesteps
 Data.time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
 Data.x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax;
