@@ -41,31 +41,10 @@ else
     error('Enter either 0, or 1 for the variable optimise')
 end
 
-%SELECT N FOR GAUSSIAN QUADRITURE SCHEME
-% Check if the code if running once or though an optimiser
-if optimise == 0 % No optimisation in taking place
-    % Allow used to select a value of n
-    answer = questdlg('Select a value of N for Gaussian Quadriture' ,'Value of N','1', '2', '3','2');
-    % Handle response
-    switch answer
-        case '1'
-            disp(['The selected vaule of N for Gaussian Quadriture = ' answer])
-            disp('***********************************')
-            Data.GN = 1;
-        case '2'
-            disp(['The selected vaule of N for Gaussian Quadriture = ' answer])
-            disp('***********************************')
-            Data.GN =2;
-        case '3'
-            disp(['The selected vaule of N for Gaussian Quadriture = ' answer])
-            disp('***********************************')
-            Data.GN = 3;
-    end
-elseif optimise ==1 % Optimisation is taking place
-    Data.GN = 2; % Set the solving method used in the optimiser
-else
-    error('Enter either 0, or 1 for the variable optimise')
-end
+%SET N FOR GAUSSIAN QUADRITURE SCHEME
+Data.GN = 2;
+
+            
 
 % SET SOLVING PERAMATERS
 if Data.VariedParamaters == 0
