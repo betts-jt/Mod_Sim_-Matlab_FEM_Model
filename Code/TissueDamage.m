@@ -7,9 +7,9 @@ TimestepBurn = find(TempE >= 317.15); % find the point where burning starts to o
 TimeBurn = time(TimestepBurn); % Find that times where burning occurs
 BurningStart = min(TimeBurn); % Find the time where burning starts to occur
 
-TempE = TempE(TimestepBurn);
+TempE1 = TempE(TimestepBurn);
 
-gamma = trapz(2e98.*exp(-12017./(TempE-273.15)));
+gamma = trapz(2e98.*exp(-12017./(TempE1-273.15)));
 
 Gamma = gamma*Data.dt;
 
