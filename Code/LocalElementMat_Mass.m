@@ -21,6 +21,7 @@ Int20 = 0; Int21 = 0; Int22 = 0;
 for k=1:N
     GW = gq.wi(k); % Value of Gauss weight
     GP = gq.Xi(k); % Value of Gauss point
+    
     % Calculating the new values by adding to the old ones
     Int00 = Int00 + GW * (1 * J/4) * GP^2 * (GP-1)^2;
     Int01 = Int01 + GW * (1 * J/2) * GP * (GP-1) * (1-GP^2);

@@ -35,16 +35,22 @@ Int20 = 0; Int21 = 0; Int22 = 0;
 for k=1:N
     GW = gq.wi(k); % Value of Gauss weight
     GP = gq.Xi(k); % Value of Gauss point
+    
+        
+    Phi0 = (GP*(GP-1))/2;
+    Phi1 = 1-GP^2;
+    Phi2 = (GP*(GP+1))/2;
+    
     % Calculating the new values by adding to the old ones
-    Int00 = Int00+GW*D*J*(GP-0.5)^2*dXidx^2;
-    Int01 = Int01+GW*D*J*(GP-0.5)*(-2*GP)*dXidx^2;
-    Int02 = Int02+GW*D*J*(GP-0.5)*(GP+0.5)*dXidx^2;
+    Int00 = Int00+GW*D*J*Phi0*Phi0*dXidx^2;
+    Int01 = Int01+GW*D*J*Phi0*Phi1*dXidx^2;
+    Int02 = Int02+GW*D*J*Phi0*Phi2*dXidx^2;
     Int10 = Int01;
-    Int11 = Int11+GW*D*J*(-2*GP)^2*dXidx^2;
-    Int12 = Int12+GW*D*J*(-2*GP)*(GP+0.5)*dXidx^2;
+    Int11 = Int11+GW*D*J*Phi1*Phi1*dXidx^2;
+    Int12 = Int12+GW*D*J*Phi1*Phi2*dXidx^2;
     Int20 = Int02;
     Int21 = Int12;
-    Int22 = Int22+GW*D*J*(GP+0.5)^2*dXidx^2;
+    Int22 = Int22+GW*D*J*Phi2*Phi2*dXidx^2;
 end
 
 
