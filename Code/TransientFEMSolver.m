@@ -29,10 +29,10 @@ Global_Mat = zeros(2*Data.Ne+1);
 Global_Vec = zeros(2*Data.Ne+1, 1);
 SourceVec = zeros(2*Data.Ne+1,1);
 
-
 %RUN TRANSIENT SOLVER
 % Set current time result based on the initial condition given in the problem
 c_current=zeros(2*Data.Ne+1, 1);
+c_next=zeros(2*Data.Ne+1, 1);
 c_current(2*Data.Ne+1,1) = Data.InitialCon;
 c_current(2*Data.Ne+1,1) = 310.15;
 c_results = zeros(2*Data.N+1,2*Data.Ne+1);
