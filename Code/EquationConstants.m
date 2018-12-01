@@ -1,4 +1,4 @@
-function [Data] = EquationConstants(nvec, Data)
+function [Data] = EquationConstants(msh,i, Data)
 %   This funciton computes the values of lambda, f and D where they vary
 %   across the x value of the material
 
@@ -6,7 +6,9 @@ function [Data] = EquationConstants(nvec, Data)
 E = 0.00166667; % Epidermis outer thickness
 D = 0.005; % Dermis outer thickness
 B = 0.01; % Total skin thickness
-
+x0=msh.elem(i).x(1);
+x1=msh.elem(i).x(2);
+nvec=(x0+x1)/2;
 % Setting the variables that make up D, lambda and f depending on position
 % of the point through the skin
 if nvec <= E % If the point is in the Epidermis

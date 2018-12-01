@@ -12,7 +12,7 @@ Global_Vec = zeros(Data.Ne+1, 1);
     
 for i = 1:Data.Ne
     if Data.VariedParamaters == 1
-        [Data] = EquationConstants(msh.nvec(i+1), Data);
+        [Data] = EquationConstants(msh,i, Data);
     else
     end
     % LOCAL ELEMENT MATRACIES
