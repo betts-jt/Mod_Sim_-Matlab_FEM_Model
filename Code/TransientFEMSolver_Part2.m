@@ -81,8 +81,15 @@ for k  = 2:Data.N+1
     
     
     % FIND TEMPURATURE AT POINT E
-    [E_point] =find(round(msh.nvec, 9)==0.001666667); % find when x = E (0.00166667)
-    TempE(k) = c_results(k, E_point);
+    E = 0.00166667; % The value of x at point E
+    After_E = find(msh.nvec > 0.00166667, 1); % The x node position after E
+    Before_E = After_E-1; % The E nodal position before E
+    
+    TempBefore_E = c_results(k, Before_E); % The temp at the node beofre E
+    TempAfter_E = c_results(k, After_E); % The temp at the node after E
+    
+    %Linieary interpolate to fine the value at E
+    TempE(k) = interp1([msh.nvec(Before_E) msh.nvec(After_E)], [TempBefore_E TempAfter_E], E);
     
     
     SourceVec_current = SourceVec_next;
