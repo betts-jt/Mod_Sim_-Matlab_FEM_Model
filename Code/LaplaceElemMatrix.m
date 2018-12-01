@@ -11,6 +11,7 @@ function [LocalElementMat] = LaplaceElemMatrix(D, eID, msh, GN)
 
 x0 = msh.elem(eID).x(1); %First X value of element being analysed
 x1 = msh.elem(eID).x(2); % Second X value of element being analysed
+dx = x1 - x0;
 
 % DEFINITION OF LIMITS OF THE STANDARD ELEMENT
 Xi0 = -1; % The vlaue of Xi0
@@ -24,7 +25,7 @@ dPsidXi = [-0.5 0.5]; % Get vector containing basis function gradients at xipt
 
 J = msh.elem(eID).J; % Drawing in the Jacobian of the element ebing analysed
 
-dXidx =1/J; % Calculating the value of dXi/dx
+dXidx =2/J; % Calculating the value of dXi/dx
 
 % Setting up initial values of the local element matrix
 Int00 = 0; Int01 = 0; Int02 = 0;

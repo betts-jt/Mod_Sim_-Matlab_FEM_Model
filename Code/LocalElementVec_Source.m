@@ -27,7 +27,7 @@ for k=1:N
     GP = gq.Xi(k); % Value of Gauss point
     % Calculating the new values by adding to the old ones
     Int0 = Int0 + GW * (f * J) * (GP*(GP-1))/2;
-    Int1 = Int1 + GW * (f * J) * 1-GP^1;
+    Int1 = Int1 + GW * (f * J) * 1-GP^2;
     Int2 = Int2 + GW * (f * J) * (GP*(GP-1))/2;
 
 end

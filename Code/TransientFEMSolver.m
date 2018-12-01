@@ -46,7 +46,7 @@ if Data.BC2T == 'D'
     c_current(end,1) = Data.BC2V; % Set last value to that of BC2
 end
 
-for k  = 2:Data.N+1
+for k  = 2:2*Data.N+1
     % CALCULATE THE GLOBAL MATRIX AND VECTOR
     [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec);
     

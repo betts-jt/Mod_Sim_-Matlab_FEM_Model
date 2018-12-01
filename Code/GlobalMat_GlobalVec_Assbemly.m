@@ -29,7 +29,7 @@ for i = 1:Data.Ne
     % GLOBAL MATRACIES
     % Form the global matrix by adding the local elements to the previous loops global element matrix.
     % This correctly sums the overlapping values on the diagonal.
-    k = 2*1-1;
+    k = 2*i-1;
     Global_Mat_K(k:k+2,k:k+2) =  Global_Mat_K(k:k+2,k:k+2)+Stiffness_Local;
     Global_Mat_M(k:k+2,k:k+2) =  Global_Mat_M(k:k+2,k:k+2)+Mass_Local;
     SourceVec(k:k+2,1) = SourceVec(k:k+2) + Source_Local_next';
