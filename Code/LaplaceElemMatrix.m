@@ -20,7 +20,10 @@ Xi1 = 1; % The vlaue of Xi1
 N=GN;
 [gq] = CreateGQScheme(N); %Creating the values of gaussian quadrature
 
-dPsidXi = [-0.5 0.5]; % Get vector containing basis function gradients at xipt
+% Run function to get dPhi_dXi
+for i = 1:gq.npts
+    dPsidXi(i) = EvalBasisGrad(i-1, 0);
+end
 
 J = msh.elem(eID).J; % Drawing in the Jacobian of the element ebing analysed
 
