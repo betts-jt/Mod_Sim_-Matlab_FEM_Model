@@ -5,7 +5,7 @@ gq.npts = N;
 if (N > 0) && (N < 4)
     %order of quadrature scheme i.e. %number of Gauss points
     gq.wi = zeros(N,1); %array of Gauss weights
-    gq.xi = zeros(N,1); %array of Gauss points
+    gq.Xi = zeros(N,1); %array of Gauss points
     switch N
         case 1
             gq.wi(1) = 2;
@@ -15,11 +15,11 @@ if (N > 0) && (N < 4)
             gq.Xi(1) = -sqrt(1/3);
             gq.Xi(2) = sqrt(1/3);
         case 3
-            gq.wi(1) = 8/9;
-            gq.wi(2) = 5/9;
+            gq.wi(1) = 5/9;
+            gq.wi(2) = 8/9;
             gq.wi(3) = 5/9;
-            gq.Xi(1) = 0.0;
-            gq.Xi(2) = -sqrt(3/5);
+            gq.Xi(1) = -sqrt(3/5);
+            gq.Xi(2) = 0;
             gq.Xi(3) = sqrt(3/5);
             
     end

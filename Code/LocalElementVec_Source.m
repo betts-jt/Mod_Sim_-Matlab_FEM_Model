@@ -22,13 +22,14 @@ Int1= 0;
 
 for k=1:N
     % Calculating the first value (Int0) of the local element matrix
-    Int0 = Int0 + f*J * dPsidXi(1);
+    Int0 = Int0 + gq.wi(k)*f*J * ((1+gq.Xi(k))/2);
     % Calculating the second value (Int1) of the local element matrix
-    Int1 = Int1 + f*J * dPsidXi(2);
+    Int1 = Int1 + gq.wi(k)*f*J * ((1-gq.Xi(k))/2);
 end
 
-LocalVec_Source = [Int0 Int1]; % Form the local source vector. 
+LocalVec_SourceTest = [Int0 Int1]; % Form the local source vector. 
 
-
+LocalVec_Source = [f*J f*J];
+assert(LocalVec_Source(1) == LocalVec_SourceTest(1))
 end
 

@@ -13,7 +13,7 @@ Data.xmax = 0.01; % Maximum vale of x for the elements
 Data.Ne = 100; % Numeber of elements in the mesh
 Data.dt = timeStep; % Timestep for transient responce
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
-Data.GN = 2; % N value for gausian quadriture
+Data.GN = 3; % N value for gausian quadriture
 Data.optimise = optimise; % Add optimise value ot data structurre
 
 total_t = 50; % Total time for analysis
