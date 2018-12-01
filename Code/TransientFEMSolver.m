@@ -56,6 +56,7 @@ for k  = 2:Data.N+1
     c_current = c_next; % set current to calue of c next
     c_results(k,:) = c_current'; % Store c_current to file
     
+    % Used in Part 2
     %{
     % FIND TEMPURATURE AT POINT E
     [E_point] =find(round(msh.nvec, 9)==0.001666667); % find when x = E (0.00166667)
