@@ -48,8 +48,7 @@ Global_Mat_K = zeros(Data.Ne+1);
 Global_Mat_M = zeros(Data.Ne+1);
 Global_Mat = zeros(Data.Ne+1);
 Global_Vec = zeros(Data.Ne+1, 1);
-SourceVec_current = zeros(Data.Ne+1,1);
-SourceVec_next = zeros(Data.Ne+1,1);
+SourceVec = zeros(Data.Ne+1, 1);
 
 %RUN TRANSIENT SOLVER
 % Set current time result based on the initial condition given in the problem
@@ -69,7 +68,7 @@ end
 
 for k  = 2:Data.N+1
     % CALCULATE THE GLOBAL MATRIX AND VECTOR
-    [Global_Mat, Global_Vec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec_current, SourceVec_next);
+    [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec);
     
     % APPLY BOUNDARY CONDITIONS
     [Global_Mat, Global_Vec] = ApplyBC(Data.BC1T,Data.BC1V,Data.BC2T,Data.BC2V, Data, Global_Mat, Global_Vec);
@@ -91,14 +90,11 @@ for k  = 2:Data.N+1
     %Linieary interpolate to fine the value at E
     TempE(k) = interp1([msh.nvec(Before_E) msh.nvec(After_E)], [TempBefore_E TempAfter_E], E);
     
-    
-    SourceVec_current = SourceVec_next;
-    
     % REINITIALISE MATRACIES
     Global_Mat_K = zeros(Data.Ne+1);
     Global_Mat_M = zeros(Data.Ne+1);
-    Global_Mat = zeros(Data.Ne+1);
-    Global_Vec = zeros(Data.Ne+1, 1);
+    SourceVec_next = zeros(Data.Ne+1, 1);
+    c_next=zeros(Data.Ne+1, 1);
     
     % Check if optimisation is taking place
     if Data.optimise == 0 % Answer is not being optimised. Plot graphs
