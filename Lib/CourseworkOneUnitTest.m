@@ -3,9 +3,10 @@
 tol = 1e-14;
 D = 2; %diffusion coefficient
 eID=1; %element ID
+GN = 2;
 msh = OneDimLinearMeshGen(0,1,10);
 
-elemat = LaplaceElemMatrix(D,eID,msh); %THIS IS THE FUNCTION YOU MUST WRITE
+elemat = LaplaceElemMatrix(D,eID,msh, GN); %THIS IS THE FUNCTION YOU MUST WRITE
 
 assert(abs(elemat(1,2) - elemat(2,1)) <= tol)
 
@@ -15,13 +16,14 @@ assert(abs(elemat(1,2) - elemat(2,1)) <= tol)
 tol = 1e-14;
 D = 5; %diffusion coefficient
 eID=1; %element ID
+GN = 2;
 msh = OneDimLinearMeshGen(0,1,10);
 
-elemat1 = LaplaceElemMatrix(D,eID,msh);%THIS IS THE FUNCTION YOU MUST WRITE
+elemat1 = LaplaceElemMatrix(D,eID,msh, GN);%THIS IS THE FUNCTION YOU MUST WRITE
 
 eID=2; %element ID
 
-elemat2 = LaplaceElemMatrix(D,eID,msh);%THIS IS THE FUNCTION YOU MUST WRITE
+elemat2 = LaplaceElemMatrix(D,eID,msh, GN);%THIS IS THE FUNCTION YOU MUST WRITE
 
 diff = elemat1 - elemat2;
 diffnorm = sum(sum(diff.*diff));
@@ -33,9 +35,10 @@ assert(abs(diffnorm) <= tol)
 tol = 1e-14;
 D = 1; %diffusion coefficient
 eID=1; %element ID
+GN = 2;
 msh = OneDimLinearMeshGen(0,1,3);
 
-elemat1 = LaplaceElemMatrix(D,eID,msh);%THIS IS THE FUNCTION YOU MUST WRITE
+elemat1 = LaplaceElemMatrix(D,eID,msh, GN);%THIS IS THE FUNCTION YOU MUST WRITE
 
 elemat2 = [ 3 -3; -3 3];
 diff = elemat1 - elemat2; %calculate the difference between the two matrices
