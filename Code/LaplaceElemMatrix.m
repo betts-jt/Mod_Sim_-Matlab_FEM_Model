@@ -27,20 +27,26 @@ J = msh.elem(eID).J; % Drawing in the Jacobian of the element ebing analysed
 dXidx =1/J; % Calculating the value of dXi/dx
 
 % Setting up initial values of the local element matrix
-Int00 = 0;
-Int01 = 0;
-Int11 = 0;
+Int00 = 0; Int01 = 0; Int02 = 0;
+Int10 = 0; Int11 = 0; Int12 = 0;
+Int20 = 0; Int21 = 0; Int22 = 0;
 
 for k=1:N
-    % Calculating the first value (Int00) of the local element matrix
-    Int00 = Int00 + gq.wi(k)*(D * dPsidXi(1) * dXidx * dPsidXi(1) * dXidx * J);
-    % Calculating the second and third value (Int10/Int01) of the local element matrix
-    Int01 = Int01 + gq.wi(k)*(D * dPsidXi(1) * dXidx * dPsidXi(2) * dXidx * J);
-    % Calculating the final value (Int11) of the local element matrix
-    Int11 = Int00 + gq.wi(k)*(D * dPsidXi(2) * dXidx * dPsidXi(2) * dXidx * J);
+    GW = gq.wi(k); % Value of Gauss weight
+    GP = gq.Xi(k); % Value of Gauss point
+    % Calculating the new values by adding to the old ones
+    Int00 = Int00+GW*D*J*(GP-0.5)^2*dXidx^2;
+    Int01 = Int01+GW*D*J*(GP-0.5)*(-2*GP)*dXidx^2;
+    Int02 = Int02+GW*D*J*(GP-0.5)*(GP+0.5)*dXidx^2;
+    Int10 = Int01;
+    Int11 = Int11+GW*D*J*(-2*GP)^2*dXidx^2;
+    Int12 = Int12+GW*D*J*(-2*GP)*(GP+0.5)*dXidx^2;
+    Int20 = Int02;
+    Int21 = Int12;
+    Int22 = Int22+GW*D*J*(GP+0.5)^2*dXidx^2;
 end
 
 
-LocalElementMat = [Int00 Int01; Int01 Int00]; % For the lcoal element matrix
+LocalElementMat = [Int00,Int01,Int02;Int10,Int11,Int12;Int20,Int21,Int22]; % For the lcoal element matrix
 
 end

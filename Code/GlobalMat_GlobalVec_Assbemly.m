@@ -7,8 +7,8 @@ function [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh,
 
 SourceVecComponentCurent_GV = Data.dt*((1-Data.Theta).*SourceVec);
 SourceVec = zeros(Data.Ne+1,1);
-Global_Mat = zeros(Data.Ne+1);
-Global_Vec = zeros(Data.Ne+1, 1);
+Global_Mat = zeros(2*Data.Ne+1);
+Global_Vec = zeros(2*Data.Ne+1, 1);
     
 for i = 1:Data.Ne
     if Data.VariedParamaters == 1
@@ -29,9 +29,10 @@ for i = 1:Data.Ne
     % GLOBAL MATRACIES
     % Form the global matrix by adding the local elements to the previous loops global element matrix.
     % This correctly sums the overlapping values on the diagonal.
-    Global_Mat_K(i:i+1,i:i+1) =  Global_Mat_K(i:i+1,i:i+1)+Stiffness_Local;
-    Global_Mat_M(i:i+1,i:i+1) =  Global_Mat_M(i:i+1,i:i+1)+Mass_Local;
-    SourceVec(i:i+1,1) = SourceVec(i:i+1) + Source_Local_next';
+    k = 2*1-1;
+    Global_Mat_K(k:k+2,k:k+2) =  Global_Mat_K(k:k+2,k:k+2)+Stiffness_Local;
+    Global_Mat_M(k:k+2,k:k+2) =  Global_Mat_M(k:k+2,k:k+2)+Mass_Local;
+    SourceVec(k:k+1,1) = SourceVec(k:k+1) + Source_Local_next';
 end
 
 SourceVecComponentNext_GV = Data.dt*((Data.Theta.*SourceVec));

@@ -44,18 +44,18 @@ end
 msh = OneDimLinearMeshGen(Data.xmin,Data.xmax,Data.Ne); % Generate the mesh
 
 % INITIALISE MATRACIES
-Global_Mat_K = zeros(Data.Ne+1);
-Global_Mat_M = zeros(Data.Ne+1);
-Global_Mat = zeros(Data.Ne+1);
-Global_Vec = zeros(Data.Ne+1, 1);
-SourceVec = zeros(Data.Ne+1, 1);
+Global_Mat_K = zeros(2*Data.Ne+1);
+Global_Mat_M = zeros(2*Data.Ne+1);
+Global_Mat = zeros(2*Data.Ne+1);
+Global_Vec = zeros(2*Data.Ne+1, 1);
+SourceVec = zeros(2*Data.Ne+1, 1);
 
 %RUN TRANSIENT SOLVER
 % Set current time result based on the initial condition given in the problem
-c_current=zeros(Data.Ne+1, 1);
+c_current=zeros(2*Data.Ne+1, 1);
 c_current(:,1) = Data.InitialCon;
-c_current(Data.Ne+1,1) = 310.15;
-c_results = zeros(Data.N,Data.Ne+1);
+c_current(2*Data.Ne+1,1) = 310.15;
+c_results = zeros(2*Data.N,2*Data.Ne+1);
 c_results(1,:) = c_current;
 
 %apply BC to this initial solution (only aplies to Dirichlet)
@@ -91,10 +91,10 @@ for k  = 2:Data.N+1
     TempE(k) = interp1([msh.nvec(Before_E) msh.nvec(After_E)], [TempBefore_E TempAfter_E], E);
     
     % REINITIALISE MATRACIES
-    Global_Mat_K = zeros(Data.Ne+1);
-    Global_Mat_M = zeros(Data.Ne+1);
-    SourceVec_next = zeros(Data.Ne+1, 1);
-    c_next=zeros(Data.Ne+1, 1);
+    Global_Mat_K = zeros(2*Data.Ne+1);
+    Global_Mat_M = zeros(2*Data.Ne+1);
+    SourceVec_next = zeros(2*Data.Ne+1, 1);
+    c_next=zeros(2*Data.Ne+1, 1);
     
     % Check if optimisation is taking place
     if Data.optimise == 0 % Answer is not being optimised. Plot graphs

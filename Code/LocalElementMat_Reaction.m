@@ -15,17 +15,26 @@ N=GN;
 [gq] = CreateGQScheme(N); %Creating the values of gaussian quadrature
 
 % Setting up initial values of the local element matrix
-Int00 = 0;
-Int01 = 0;
-Int11 = 0;
+Int00 = 0; Int01 = 0; Int02 = 0;
+Int10 = 0; Int11 = 0; Int12 = 0;
+Int20 = 0; Int21 = 0; Int22 = 0;
 
 for k=1:N
-    Int00 = Int00 + gq.wi(k) * (lambda*J/4) * (1-gq.Xi(k))^2;
-    Int01 = Int01 + gq.wi(k) * (lambda*J/4) * (1-gq.Xi(k))*(1+gq.Xi(k));
-    Int11 = Int11 + gq.wi(k) * (lambda*J/4) * (1+gq.Xi(k))^2;
+    GW = gq.wi(k); % Value of Gauss weight
+    GP = gq.Xi(k); % Value of Gauss point
+    % Calculating the new values by adding to the old ones
+    Int00 = Int00 + GW * (lambda * J/4) * GP^2 * (GP-1)^2;
+    Int01 = Int01 + GW * (lambda * J/2) * GP * (GP-1) * (1-GP^2);
+    Int02 = Int02 + GW * (lambda * J/4) * GP^2 * (GP^2-1);
+    Int10 = Int01;
+    Int11 = Int11 + GW * (lambda * J) * (1-GP^2)^2;
+    Int12 = Int21 + GW * (lambda * J/2) * GP * (GP+1) * (1-GP^2);
+    Int20 = Int02;
+    Int21 = Int12;
+    Int22 = Int22 + GW * (lambda * J/4) * GP^2 * (GP+1)^2;
 end
 
-LocalElementMat_Reaction = [Int00 Int01; Int01 Int00]; % Generate the local element reaction matrix
+LocalElementMat_Reaction = [Int00,Int01,Int02;Int10,Int11,Int12;Int20,Int21,Int22]; % Generate the local element reaction matrix
 end
 
 
