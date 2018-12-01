@@ -35,7 +35,7 @@ SourceVec = zeros(2*Data.Ne+1,1);
 c_current=zeros(2*Data.Ne+1, 1);
 c_current(2*Data.Ne+1,1) = Data.InitialCon;
 c_current(2*Data.Ne+1,1) = 310.15;
-c_results = zeros(2*Data.N,2*Data.Ne+1);
+c_results = zeros(2*Data.N+1,2*Data.Ne+1);
 c_results(1,:) = c_current;
 
 %apply BC to this initial solution (only aplies to Dirichlet)

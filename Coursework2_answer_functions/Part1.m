@@ -79,7 +79,7 @@ ylabel('Tepturature, K')
 legend('t=0.05','t=0.1','t=0.3','t=1', 'Analytical Solutions', 'Location', 'NorthWest')
 
 %% Plot analytical solution vs numerical solution
-for i=1:Data.N+1
+for i=1:2*Data.N+1
     c(i)  = TransientAnalyticSoln(0.8,time(i));
 end
 figure(3)
