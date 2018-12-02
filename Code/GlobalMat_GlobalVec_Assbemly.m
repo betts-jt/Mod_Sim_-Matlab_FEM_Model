@@ -16,18 +16,24 @@ for i = 1:Data.Ne
     else
     end
     % LOCAL ELEMENT MATRACIES
-    Mass_Local = LocalElementMat_Mass(i, msh, Data.GN); % Generate the local element mass matrix for element i
+    % Generate the local element mass matrix for element i
+    Mass_Local = LocalElementMat_Mass(i, msh, Data.GN); 
     
-    Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh, Data.GN); % Generate the local element diffution matrix for element i
+    % Generate the local element diffution matrix for element i
+    Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh, Data.GN); 
     Source_Local_next = LocalElementVec_Source(Data.f, i, msh, Data.GN);
     
-    
-    Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
-    Stiffness_Local = Diffusion_Local - Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
+    % Generate the local element reaction matrix for element i
+    Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN);
+    % Calculate the overall local element matrix of the left hand side of 
+    %   the equation if the reaction term is needed
+    Stiffness_Local = Diffusion_Local - Reaction_Local;
     
     
     % GLOBAL MATRACIES
-    % Form the global matrix by adding the local elements to the previous loops global element matrix.
+    % Form the global matrix by adding the local elements to the previous 
+    %   loops global element matrix.
+    
     % This correctly sums the overlapping values on the diagonal.
     Global_Mat_K(i:i+1,i:i+1) =  Global_Mat_K(i:i+1,i:i+1)+Stiffness_Local;
     Global_Mat_M(i:i+1,i:i+1) =  Global_Mat_M(i:i+1,i:i+1)+Mass_Local;
@@ -36,8 +42,11 @@ end
 
 SourceVecComponentNext_GV = Data.dt*((Data.Theta.*SourceVec));
 
-Global_Mat = Global_Mat_M + (Data.Theta* Data.dt .* Global_Mat_K); % Caluclate the global matrix
+% Caluclate the global matrix
+Global_Mat = Global_Mat_M + (Data.Theta* Data.dt .* Global_Mat_K); 
 Global_Vec_Initial = Global_Mat_M - ((1-Data.Theta) * Data.dt).* Global_Mat_K;
-Global_Vec =  Global_Vec_Initial*C_current + SourceVecComponentNext_GV+SourceVecComponentCurent_GV; % Calculate the global vector
+% Calculate the global vector
+Global_Vec =  Global_Vec_Initial*C_current + SourceVecComponentNext_GV+...
+    SourceVecComponentCurent_GV; 
 
 end

@@ -1,7 +1,8 @@
 function [Data] = SolvingMethod(Data)
 
 % Open box to allow user to select solving method
-answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
+answer = questdlg('Select a sovling method','Solving Method Choice', ...
+    'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
 % Handle response
 switch answer
     case 'Crank-Nicolson'
