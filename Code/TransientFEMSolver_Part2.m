@@ -57,7 +57,7 @@ end
 
 for k  = 2:Data.N+1
     % CALCULATE THE GLOBAL MATRIX AND VECTOR
-    [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec);
+    [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, SourceVec);
     
     % APPLY BOUNDARY CONDITIONS
     [Global_Mat, Global_Vec] = ApplyBC(Data.BC1T,Data.BC1V,Data.BC2T,Data.BC2V, Data, Global_Mat, Global_Vec);
@@ -80,8 +80,6 @@ for k  = 2:Data.N+1
     TempE(k) = interp1([msh.nvec(Before_E) msh.nvec(After_E)], [TempBefore_E TempAfter_E], E);
     
     % REINITIALISE MATRACIES
-    Global_Mat_K = zeros(2*Data.Ne+1);
-    Global_Mat_M = zeros(2*Data.Ne+1);
     SourceVec_next = zeros(2*Data.Ne+1, 1);
     c_next=zeros(2*Data.Ne+1, 1);
     
