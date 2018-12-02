@@ -34,7 +34,7 @@ for k=1:N
     % Calculating the second value (Int1) of the local element matrix
     Int1 = Int1 + GW*f*J * Phi(2);
     % Calculating the second value (Int3) of the local element matrix
-    Int2 = Int1 + GW*f*J * Phi(3);
+    Int2 = Int2 + GW*f*J * Phi(3);
 end
 
 LocalVec_Source = [Int0 Int1 Int2]; % Form the local source vector.
