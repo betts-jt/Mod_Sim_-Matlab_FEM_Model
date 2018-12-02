@@ -19,6 +19,7 @@ end
 % Setting up initial values of the local element vector
 Int0 = 0;
 Int1= 0;
+Int2=0;
 
 for k=1:N
     GW = gq.wi(k);
