@@ -57,22 +57,22 @@ Data.InitialCon = 0; % Initial condition of the problem in time
 % Plot T distribution at different time values
 figure(1)
 hold on
-plot(Data.x, c_results(1+(0.05/0.01),:), '+-')
-plot(Data.x, c_results(1+(0.1/0.01),:), '+-')
-plot(Data.x, c_results(1+(0.3/0.01),:), '+-')
-plot(Data.x, c_results((1+1/0.01),:), '+-')
+plot(Data.x(1:2:end), c_results(1+(0.05/0.01),(1:2:end)), '+-')
+plot(Data.x(1:2:end), c_results(1+(0.1/0.01),(1:2:end)), '+-')
+plot(Data.x(1:2:end), c_results(1+(0.3/0.01),(1:2:end)), '+-')
+plot(Data.x(1:2:end), c_results((1+1/0.01),(1:2:end)), '+-')
 title('Numberical Tempurature Distributions')
 xlabel('x, mm')
 ylabel('Tepturature, K')
 
-c1  = TransientAnalyticSoln(Data.x,0.05);
-c2  = TransientAnalyticSoln(Data.x,0.1);
-c3  = TransientAnalyticSoln(Data.x,0.3);
-c4  = TransientAnalyticSoln(Data.x,1);
-plot(Data.x, c1, 'k--')
-plot(Data.x, c2, 'k--')
-plot(Data.x, c3, 'k--')
-plot(Data.x, c4, 'k--')
+c1  = TransientAnalyticSoln(Data.x(1:2:end),0.05);
+c2  = TransientAnalyticSoln(Data.x(1:2:end),0.1);
+c3  = TransientAnalyticSoln(Data.x(1:2:end),0.3);
+c4  = TransientAnalyticSoln(Data.x(1:2:end),1);
+plot(Data.x(1:2:end), c1, 'k--')
+plot(Data.x(1:2:end), c2, 'k--')
+plot(Data.x(1:2:end), c3, 'k--')
+plot(Data.x(1:2:end), c4, 'k--')
 title('Analytical Tempurature Distribution')
 xlabel('x, mm')
 ylabel('Tepturature, K')
@@ -84,7 +84,7 @@ for i=1:Data.N+1
 end
 figure(3)
 hold on
-plot(time, c_results(:,1+16), 'ro-')
+plot(time(1:2:end), c_results((1:2:end),1+16), 'ro-')
 plot(time, c, 'b-')
 title('Numeric Vs Analytical')
 xlabel('t, s')
@@ -94,7 +94,7 @@ legend('Numerical Solution', 'Analytical solution', 'Location' , 'SouthEast')
 %% Plot difference between numerical and analytical
 figure(4)
 hold on
-plot(time,c-c_results(:,1+16)')
+plot(time(1:2:end),c(1:2:end)-c_results((1:2:end),1+16)')
 title('Error Between Numerical and Analytical Solutions')
 plot([0 1], [0 0], 'k-')
 xlabel('t, s')
