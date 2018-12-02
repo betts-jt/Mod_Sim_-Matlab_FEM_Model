@@ -99,7 +99,10 @@ for k  = 2:Data.N+1
     % Check if optimisation is taking place
     if Data.optimise == 0 % Answer is not being optimised. Plot graphs
         figure(1)
-        plot(Data.x,c_results(k,:)')
+        %Plot all nodes
+        %plot(Data.x,c_results(k,:)')
+        %Plot only the global nodes
+        plot(Data.x(1:2:end),c_results(1,2:2:end)')
         ylabel('Tempurature, K')
         xlabel('Distance through skin, mm')
         legend(['Current Time ' num2str(Data.time(k)) 's'], 'Location', 'NorthWest')
