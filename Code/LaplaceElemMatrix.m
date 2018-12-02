@@ -57,9 +57,6 @@ for k=1:N
     Int22 = Int22 + GW*(D * dPsidXi(3) * dPsidXi(3) * dXidx^2 * J);
 
 end
-Int00 = 0;  Int01 = 0;  Int02 = 0;
-Int10 = 0;  Int11 = 0;  Int12 = 0;
-Int20 = 0;  Int21 = 0;  Int22 = 0;
 
 LocalElementMat = [Int00 Int01 Int02; Int10 Int11 Int12; Int20 Int21 Int22]; % For the lcoal element matrix
 

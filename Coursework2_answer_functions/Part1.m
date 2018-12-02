@@ -84,7 +84,7 @@ for i=1:Data.N+1
 end
 figure(3)
 hold on
-plot(time, c_results(:,1+8), 'ro-')
+plot(time, c_results(:,1+16), 'ro-')
 plot(time, c, 'b-')
 title('Numeric Vs Analytical')
 xlabel('t, s')
@@ -94,7 +94,7 @@ legend('Numerical Solution', 'Analytical solution', 'Location' , 'SouthEast')
 %% Plot difference between numerical and analytical
 figure(4)
 hold on
-plot(time,c-c_results(:,1+8)')
+plot(time,c-c_results(:,1+16)')
 title('Error Between Numerical and Analytical Solutions')
 plot([0 1], [0 0], 'k-')
 xlabel('t, s')
