@@ -3,18 +3,6 @@ clc
 close all
 
 PathAdd(); % Add the correct folders to the path to allow all code to run
-% SELECT SOLVING METHOD
-% Allow user to select solving method
-answer = questdlg('Select a sovling method','Solving Method Choice', 'Crank-Nicolson', 'Backwards Euler','Backwards Euler');
-% Handle response
-switch answer
-    case 'Crank-Nicolson'
-        disp([answer ' is the selected solving method'])
-        Data.Theta = 0.5;
-    case 'Backwards Euler'
-        disp([answer '  is the selected solving method'])
-        Data.Theta = 1;
-end
 
 % GENERATE A STRUCTURE OF THE RELEVENT PROBLEM VARIABLES
 Data.xmin = 0; % Minimum vale of x for the elements
@@ -31,6 +19,8 @@ Data.x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax; % Calculate the x p
 
 Data.VariedParamaters = 0; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 
+% SELECT SOLVING METHOD
+[Data] = SolvingMethod(Data); % Run function to allow user to select solving method
 
 if Data.VariedParamaters == 0
     Data.D = 1; % Set fixed value of D
