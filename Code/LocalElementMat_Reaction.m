@@ -41,7 +41,8 @@ for k=1:N
     Int22 = Int22 + GW*(Phi(3) * Phi(3) * lambda*J);
 end
 
-LocalElementMat_Reaction = [Int00 Int01 Int02; Int10 Int11 Int12; Int20 Int21 Int22]; % Generate the local element reaction matrix
+% Generate the local element reaction matrix
+LocalElementMat_Reaction = [Int00 Int01 Int02; Int10 Int11 Int12; Int20 Int21 Int22]; 
 end
 
 

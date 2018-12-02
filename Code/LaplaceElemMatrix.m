@@ -53,6 +53,7 @@ for k=1:N
     
 end
 
-LocalElementMat = [Int00 Int01 Int02; Int10 Int11 Int12; Int20 Int21 Int22]; % For the lcoal element matrix
+% Form the local element matrix
+LocalElementMat = [Int00 Int01 Int02; Int10 Int11 Int12; Int20 Int21 Int22]; 
 
 end

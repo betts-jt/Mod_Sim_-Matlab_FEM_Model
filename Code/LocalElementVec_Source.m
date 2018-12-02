@@ -4,6 +4,7 @@ function [LocalVec_Source] = LocalElementVec_Source(f, eID, msh, GN)
 %   Where eID is the element number.
 %   msh is the mesh data structure calcualted using OneDimLinearMeshGen
 %   f = constant of the source term
+%   GD = N value for Gaussiam Quadriture scheme
 
 % IMPLIMENTING GAUSSIAN QUADRATURE
 N=GN;

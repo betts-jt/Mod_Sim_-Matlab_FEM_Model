@@ -6,6 +6,8 @@ if (N > 0) && (N < 4)
     %order of quadrature scheme i.e. %number of Gauss points
     gq.wi = zeros(N,1); %array of Gauss weights
     gq.Xi = zeros(N,1); %array of Gauss points
+    
+    % GENERATE VALUES OF GAUSS WEIGHT AND GAUSS POINTS
     switch N
         case 1
             gq.wi(1) = 2;
@@ -21,7 +23,6 @@ if (N > 0) && (N < 4)
             gq.Xi(1) = -sqrt(3/5);
             gq.Xi(2) = 0;
             gq.Xi(3) = sqrt(3/5);
-            
     end
     
 else
