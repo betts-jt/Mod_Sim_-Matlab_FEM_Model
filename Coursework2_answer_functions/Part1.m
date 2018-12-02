@@ -27,7 +27,7 @@ Data.optimise = 1; %No optimisation is taking place
 total_t = 1; % Total time for analysis
 Data.N = total_t/Data.dt; % Number of timesteps
 time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
-Data.x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax; % Calculate the x position of each point
+Data.x = Data.xmin: (Data.xmax-Data.xmin)/(2*Data.Ne):Data.xmax; % Calculate the x position of each point
 
 Data.VariedParamaters = 0; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 

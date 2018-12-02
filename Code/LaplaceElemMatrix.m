@@ -30,20 +30,37 @@ J = msh.elem(eID).J; % Drawing in the Jacobian of the element ebing analysed
 dXidx =1/J; % Calculating the value of dXi/dx
 
 % Setting up initial values of the local element matrix
-Int00 = 0;
-Int01 = 0;
-Int11 = 0;
+Int00 = 0;  Int01 = 0;  Int02 = 0;
+Int10 = 0;  Int11 = 0;  Int12 = 0;
+Int20 = 0;  Int21 = 0;  Int22 = 0;
 
 for k=1:N
+    GW = gq.wi(k);
+    GP = gq.Xi(k);
+    
+    Phi0 = (GP*(GP-1))/2;
+    dPsidXi(1) = GP-0.5;
+    Phi1 = 1-GP^2;
+    dPsidXi(2) = -2*GP;
+    Phi2 = (GP*(GP+1))/2;
+    dPsidXi(3) = GP+0.5;
+    
     % Calculating the first value (Int00) of the local element matrix
-    Int00 = Int00 + gq.wi(k)*(D * dPsidXi(1) * dXidx * dPsidXi(1) * dXidx * J);
-    % Calculating the second and third value (Int10/Int01) of the local element matrix
-    Int01 = Int01 + gq.wi(k)*(D * dPsidXi(1) * dXidx * dPsidXi(2) * dXidx * J);
-    % Calculating the final value (Int11) of the local element matrix
-    Int11 = Int00 + gq.wi(k)*(D * dPsidXi(2) * dXidx * dPsidXi(2) * dXidx * J);
+    Int00 = Int00 + GW*(D * dPsidXi(1) * dPsidXi(1) * dXidx^2 * J);
+    Int01 = Int01 + GW*(D * dPsidXi(1) * dPsidXi(2) * dXidx^2 * J);
+    Int02 = Int02 + GW*(D * dPsidXi(1) * dPsidXi(3) * dXidx^2 * J);
+    Int10 = Int10 + GW*(D * dPsidXi(2) * dPsidXi(1) * dXidx^2 * J);
+    Int11 = Int11 + GW*(D * dPsidXi(2) * dPsidXi(2) * dXidx^2 * J);
+    Int12 = Int12 + GW*(D * dPsidXi(2) * dPsidXi(3) * dXidx^2 * J);
+    Int20 = Int20 + GW*(D * dPsidXi(3) * dPsidXi(1) * dXidx^2 * J);
+    Int21 = Int21 + GW*(D * dPsidXi(3) * dPsidXi(2) * dXidx^2 * J);
+    Int22 = Int22 + GW*(D * dPsidXi(3) * dPsidXi(3) * dXidx^2 * J);
+
 end
+Int00 = 0;  Int01 = 0;  Int02 = 0;
+Int10 = 0;  Int11 = 0;  Int12 = 0;
+Int20 = 0;  Int21 = 0;  Int22 = 0;
 
-
-LocalElementMat = [Int00 Int01; Int01 Int00]; % For the lcoal element matrix
+LocalElementMat = [Int00 Int01 Int02; Int10 Int11 Int12; Int20 Int21 Int22]; % For the lcoal element matrix
 
 end

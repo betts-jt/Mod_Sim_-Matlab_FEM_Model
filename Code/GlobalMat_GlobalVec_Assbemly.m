@@ -6,11 +6,11 @@ function [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh,
 %   Data = Structure of probelem variables.
 
 SourceVecComponentCurent_GV = Data.dt*((1-Data.Theta).*SourceVec);
-SourceVec = zeros(Data.Ne+1,1);
-Global_Mat = zeros(Data.Ne+1);
-Global_Vec = zeros(Data.Ne+1, 1);
+SourceVec = zeros(2*Data.Ne+1,1);
+Global_Mat = zeros(2*Data.Ne+1);
+Global_Vec = zeros(2*Data.Ne+1, 1);
     
-for i = 1:Data.Ne
+for i = 1:msh.ne
     if Data.VariedParamaters == 1
         [Data] = EquationConstants(msh,i, Data);
     else
@@ -19,19 +19,20 @@ for i = 1:Data.Ne
     Mass_Local = LocalElementMat_Mass(i, msh, Data.GN); % Generate the local element mass matrix for element i
     
     Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh, Data.GN); % Generate the local element diffution matrix for element i
-    Source_Local_next = LocalElementVec_Source(Data.f, i, msh, Data.GN);
+    %Source_Local_next = LocalElementVec_Source(Data.f, i, msh, Data.GN);
     
     
-    Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
-    Stiffness_Local = Diffusion_Local - Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
+    %Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
+    Stiffness_Local = Diffusion_Local; %- Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
     
     
     % GLOBAL MATRACIES
     % Form the global matrix by adding the local elements to the previous loops global element matrix.
     % This correctly sums the overlapping values on the diagonal.
-    Global_Mat_K(i:i+1,i:i+1) =  Global_Mat_K(i:i+1,i:i+1)+Stiffness_Local;
-    Global_Mat_M(i:i+1,i:i+1) =  Global_Mat_M(i:i+1,i:i+1)+Mass_Local;
-    SourceVec(i:i+1,1) = SourceVec(i:i+1) + Source_Local_next';
+    j=2*i-1;
+    Global_Mat_K(j:j+2,j:j+2) =  Global_Mat_K(j:j+2,j:j+2)+Stiffness_Local;
+    Global_Mat_M(j:j+2,j:j+2) =  Global_Mat_M(j:j+2,j:j+2)+Mass_Local;
+    SourceVec(j:j+2,1) = SourceVec(j:j+2); %+ Source_Local_next';
 end
 
 SourceVecComponentNext_GV = Data.dt*((Data.Theta.*SourceVec));
