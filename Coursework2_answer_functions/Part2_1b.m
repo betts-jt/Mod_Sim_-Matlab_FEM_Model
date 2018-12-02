@@ -19,7 +19,7 @@ Data.optimise = optimise; % Add optimise value ot data structurre
 total_t = 50; % Total time for analysis
 Data.N = total_t/Data.dt; % Number of timesteps
 Data.time  = 0:Data.dt:(total_t); % Calculte the time for each timestep
-Data.x = Data.xmin: (Data.xmax-Data.xmin)/Data.Ne:Data.xmax;
+Data.x = Data.xmin: (Data.xmax-Data.xmin)/(2*Data.Ne):Data.xmax;
 
 % SET SOLVING PERAMATERS
 if Data.VariedParamaters == 0

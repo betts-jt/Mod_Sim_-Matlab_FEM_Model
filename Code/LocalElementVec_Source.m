@@ -21,15 +21,22 @@ Int0 = 0;
 Int1= 0;
 
 for k=1:N
+    GW = gq.wi(k);
+    GP = gq.Xi(k);
+    
+    Phi(1) = (GP*(GP-1))/2;
+    Phi(2) = 1-GP^2;
+    Phi(3) = (GP*(GP+1))/2;
+    
     % Calculating the first value (Int0) of the local element matrix
-    Int0 = Int0 + gq.wi(k)*f*J * ((1+gq.Xi(k))/2);
+    Int0 = Int0 + GW*f*J * Phi(1);
     % Calculating the second value (Int1) of the local element matrix
-    Int1 = Int1 + gq.wi(k)*f*J * ((1-gq.Xi(k))/2);
+    Int1 = Int1 + GW*f*J * Phi(2);
+    % Calculating the second value (Int3) of the local element matrix
+    Int2 = Int1 + GW*f*J * Phi(3);
 end
 
-LocalVec_SourceTest = [Int0 Int1]; % Form the local source vector. 
+LocalVec_Source = [Int0 Int1 Int2]; % Form the local source vector.
 
-LocalVec_Source = [f*J f*J];
-assert(LocalVec_Source(1) == LocalVec_SourceTest(1))
 end
 

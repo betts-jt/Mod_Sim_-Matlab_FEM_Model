@@ -19,11 +19,11 @@ for i = 1:msh.ne
     Mass_Local = LocalElementMat_Mass(i, msh, Data.GN); % Generate the local element mass matrix for element i
     
     Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh, Data.GN); % Generate the local element diffution matrix for element i
-    %Source_Local_next = LocalElementVec_Source(Data.f, i, msh, Data.GN);
+    Source_Local_next = LocalElementVec_Source(Data.f, i, msh, Data.GN);
     
     
-    %Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
-    Stiffness_Local = Diffusion_Local; %- Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
+    Reaction_Local = LocalElementMat_Reaction(Data.lambda, i, msh, Data.GN); % Generate the local element reaction matrix for element i
+    Stiffness_Local = Diffusion_Local - Reaction_Local;% Calculate the overall local element matrix of the left hand side of the equation if the reaction term is needed
     
     
     % GLOBAL MATRACIES
@@ -32,7 +32,7 @@ for i = 1:msh.ne
     j=2*i-1;
     Global_Mat_K(j:j+2,j:j+2) =  Global_Mat_K(j:j+2,j:j+2)+Stiffness_Local;
     Global_Mat_M(j:j+2,j:j+2) =  Global_Mat_M(j:j+2,j:j+2)+Mass_Local;
-    SourceVec(j:j+2,1) = SourceVec(j:j+2); %+ Source_Local_next';
+    SourceVec(j:j+2,1) = SourceVec(j:j+2) + Source_Local_next';
 end
 
 SourceVecComponentNext_GV = Data.dt*((Data.Theta.*SourceVec));
