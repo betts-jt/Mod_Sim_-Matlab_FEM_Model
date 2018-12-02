@@ -102,7 +102,7 @@ for k  = 2:Data.N+1
         %Plot all nodes
         %plot(Data.x,c_results(k,:)')
         %Plot only the global nodes
-        plot(Data.x(1:2:end),c_results(1,2:2:end)')
+        plot(Data.x(1:2:end),c_results(k,1:2:end)')
         ylabel('Tempurature, K')
         xlabel('Distance through skin, mm')
         legend(['Current Time ' num2str(Data.time(k)) 's'], 'Location', 'NorthWest')
