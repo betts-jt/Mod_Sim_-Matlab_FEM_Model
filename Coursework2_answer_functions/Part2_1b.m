@@ -38,7 +38,7 @@ Data.BC1V = SurfaceTemp; % Value of BC1
 Data.BC2T = 'D'; % Define type of BC 2
 Data.BC2V = 310.15; % Value of BC2
 Data.InitialCon = 310.15; % Initial condition of the problem in time
-Data.SurfectTemp = SurfaceTemp; % Store the current surface temp
+Data.SurfaceTemp = SurfaceTemp; % Store the current surface temp
 
 %RUN TRANSIENT FEM SOLVER
 global c_results
