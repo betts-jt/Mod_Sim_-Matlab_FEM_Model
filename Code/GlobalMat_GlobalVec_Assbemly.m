@@ -5,9 +5,7 @@ function [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh,
 %   msh = the mesh being investigated
 %   C_current = current colution value
 %   Data = Structure of probelem variables.
-%   Global_Mat_M = Value of the global mass matrix
-%   Global_Mat_K = Value of the global stiffness matrix
-%   SourceVec =
+%   SourceVec = Global source vector from previous timestep
 
 % Calcutare the component of the GV due to current source vector
 SourceVecComponentCurent_GV = Data.dt*((1-Data.Theta).*SourceVec);
@@ -25,8 +23,9 @@ for i = 1:msh.ne
     else
     end
     % LOCAL ELEMENT MATRACIES
-    % Generate the local element mass matrix for element i
-    Mass_Local = LocalElementMat_Mass(i, msh, Data.GN);
+    % Generate the local element mass matrix for element i. This is equal
+    % to the reaction term with a lambda of 1.
+    Mass_Local = LocalElementMat_Reaction(1, i, msh, Data.GN);
     
     % Generate the local element diffution matrix for element i
     Diffusion_Local = LaplaceElemMatrix(Data.D, i, msh, Data.GN);
@@ -49,6 +48,7 @@ for i = 1:msh.ne
     SourceVec(j:j+2,1) = SourceVec(j:j+2) + Source_Local_next';
 end
 
+% Calcutare the component of the GV due to next source vector
 SourceVecComponentNext_GV = Data.dt*((Data.Theta.*SourceVec));
 
 % Caluclate the global matrix
