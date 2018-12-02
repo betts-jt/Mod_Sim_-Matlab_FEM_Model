@@ -5,7 +5,8 @@ function [c_results, Data] = TransientFEMSolver(Data)
 %   Data.xmax = Maximum vale of x for the elements
 %   Data.Ne = Number of elements in the mesh
 %   Data.dt = Timestep for transient responce
-%   Data.VariedParameters = Value is either 1 if the equation parameters vary with x or 0 if they dont
+%   Data.VariedParameters = Value is either 1 if the equation parameters 
+%       vary with x or 0 if they dont
 %   Data.GN = N value for gausian quadriture
 %   Data.optimise = Add optimise value ot data structurre
 %   Data.N = Number of timesteps
@@ -48,10 +49,12 @@ end
 
 for k  = 2:Data.N+1
     % CALCULATE THE GLOBAL MATRIX AND VECTOR
-    [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh, c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec);
+    [Global_Mat, Global_Vec, SourceVec] = GlobalMat_GlobalVec_Assbemly(msh,...
+        c_current, Data, Global_Mat_K, Global_Mat_M, SourceVec);
     
     % APPLY BOUNDARY CONDITIONS
-    [Global_Mat, Global_Vec] = ApplyBC(Data.BC1T,Data.BC1V,Data.BC2T,Data.BC2V, Data, Global_Mat, Global_Vec);
+    [Global_Mat, Global_Vec] = ApplyBC(Data.BC1T,Data.BC1V,Data.BC2T,Data.BC2V,...
+        Data, Global_Mat, Global_Vec);
     
     c_next = Global_Mat\Global_Vec; % generate the solution at the next point
     
