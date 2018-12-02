@@ -21,7 +21,7 @@ Data.xmin = 0; % Minimum vale of x for the elements
 Data.xmax = 1; % Maximum vale of x for the elements
 Data.Ne = 10; % Numeber of elements in the mesh
 Data.dt = 0.01; % Timestep for transient responce
-Data.GN = 2; % Set number of N from gausian quadriture
+Data.GN = 3; % Set number of N from gausian quadriture
 Data.optimise = 1; %No optimisation is taking place
 
 total_t = 1; % Total time for analysis
