@@ -11,11 +11,6 @@ N=GN;
 
 J = msh.elem(eID).J; % Drawing in the Jacobian of the element being analysed
 
-% Run function to get dPhi_dXi
-for i = 1:gq.npts
-    dPsidXi(i) = EvalBasisGrad(i-1, 0);
-end
-
 % Setting up initial values of the local element vector
 Int0 = 0;
 Int1= 0;
@@ -25,9 +20,10 @@ for k=1:N
     GW = gq.wi(k);
     GP = gq.Xi(k);
     
-    Phi(1) = (GP*(GP-1))/2;
-    Phi(2) = 1-GP^2;
-    Phi(3) = (GP*(GP+1))/2;
+    % Run function to get Phi at each node
+    for i = 1:gq.npts
+        Phi(i) = EvalBasis(i, GP);
+    end
     
     % Calculating the first value (Int0) of the local element matrix
     Int0 = Int0 + GW*f*J * Phi(1);

@@ -20,10 +20,6 @@ Xi1 = 1; % The vlaue of Xi1
 N=GN;
 [gq] = CreateGQScheme(N); %Creating the values of gaussian quadrature
 
-% Run function to get dPhi_dXi
-for i = 1:gq.npts
-    dPsidXi(i) = EvalBasisGrad(i-1, 0);
-end
 
 J = msh.elem(eID).J; % Drawing in the Jacobian of the element ebing analysed
 
@@ -35,16 +31,15 @@ Int10 = 0;  Int11 = 0;  Int12 = 0;
 Int20 = 0;  Int21 = 0;  Int22 = 0;
 
 for k=1:N
+    % Set gauss weight and gauss points for loop
     GW = gq.wi(k);
     GP = gq.Xi(k);
     
-    Phi0 = (GP*(GP-1))/2;
-    dPsidXi(1) = GP-0.5;
-    Phi1 = 1-GP^2;
-    dPsidXi(2) = -2*GP;
-    Phi2 = (GP*(GP+1))/2;
-    dPsidXi(3) = GP+0.5;
-    
+    % Run function to get dPhi_dXi for all basis functions
+    for i = 1:gq.npts
+        dPsidXi(i) = EvalBasisGrad(i, GP);
+    end
+
     % Calculating the first value (Int00) of the local element matrix
     Int00 = Int00 + GW*(D * dPsidXi(1) * dPsidXi(1) * dXidx^2 * J);
     Int01 = Int01 + GW*(D * dPsidXi(1) * dPsidXi(2) * dXidx^2 * J);
@@ -55,7 +50,7 @@ for k=1:N
     Int20 = Int20 + GW*(D * dPsidXi(3) * dPsidXi(1) * dXidx^2 * J);
     Int21 = Int21 + GW*(D * dPsidXi(3) * dPsidXi(2) * dXidx^2 * J);
     Int22 = Int22 + GW*(D * dPsidXi(3) * dPsidXi(3) * dXidx^2 * J);
-
+    
 end
 
 LocalElementMat = [Int00 Int01 Int02; Int10 Int11 Int12; Int20 Int21 Int22]; % For the lcoal element matrix

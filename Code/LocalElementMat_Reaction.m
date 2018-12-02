@@ -24,9 +24,10 @@ for k=1:N
     GW = gq.wi(k);
     GP = gq.Xi(k);
     
-    Phi(1) = (GP*(GP-1))/2;
-    Phi(2) = 1-GP^2;
-    Phi(3) = (GP*(GP+1))/2;
+    % Run function to get Phi at each node
+    for i = 1:gq.npts
+        Phi(i) = EvalBasis(i, GP);
+    end
     
     % Calculating the first value (Int00) of the local element matrix
     Int00 = Int00 + GW*(Phi(1) * Phi(1) * lambda*J);
