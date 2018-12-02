@@ -35,7 +35,7 @@ SourceVec = zeros(2*Data.Ne+1,1);
 % Set current time result based on the initial condition given in the problem
 c_current=zeros(2*Data.Ne+1, 1);
 c_current(2*Data.Ne+1,1) = Data.InitialCon;
-c_current(2*Data.Ne+1,1) = 310.15;
+c_current(2*Data.Ne+1,1) = 1;
 c_results = zeros(Data.N,2*Data.Ne+1);
 c_results(1,:) = c_current;
 
