@@ -2,7 +2,7 @@ N = 10; % Numebr of loops to be done
 
 TempMax = 390; % Maximum tempurature to be tested initially
 TempMin = 310; % Minimum tempurature to be tested initially
-timeSteps = [0.5, 0.5, 0.5, 0.5]; % Array of timesteps to be tested. Can be any legnth
+timeSteps = [0.5, 0.5, 0.05, 0.01]; % Array of timesteps to be tested. Can be any legnth
 
 for k = 1:length(timeSteps)
     % Generate array of legnth N of tempuratures to be tried
