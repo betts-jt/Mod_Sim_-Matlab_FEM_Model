@@ -7,10 +7,14 @@ TimestepBurn = find(TempE >= 317.15); % find the point where burning starts to o
 TimeBurn = time(TimestepBurn); % Find that times where burning occurs
 BurningStart = min(TimeBurn); % Find the time where burning starts to occur
 
-TempE1 = TempE(TimestepBurn);
+% An array of the tempuratures at E at all the times when burning occurs
+TempE1 = TempE(TimestepBurn); 
 
+% Integrate the equation given on the coursework sheet
 gamma = trapz(2e98.*exp(-12017./(TempE1-273.15)));
 
+% Multiply by the current timestep so the intergral is performed through
+% the correct timestep
 Gamma = gamma*Data.dt;
 
 end
