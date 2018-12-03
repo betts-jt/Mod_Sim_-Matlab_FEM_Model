@@ -10,7 +10,7 @@ PathAdd(); % Add the correct folders to the path to allow all code to run
 % GENERATE A STRUCTURE OF THE RELEVENT PROBLEM VARIABLES
 Data.xmin = 0; % Minimum vale of x for the elements
 Data.xmax = 0.01; % Maximum vale of x for the elements
-Data.Ne = 100; % Numeber of elements in the mesh
+Data.Ne = 30; % Numeber of elements in the mesh
 Data.dt = timeStep; % Timestep for transient responce
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 Data.GN = 3; % N value for gausian quadriture
@@ -41,9 +41,31 @@ Data.InitialCon = 310.15; % Initial condition of the problem in time
 Data.SurfaceTemp = SurfaceTemp; % Store the current surface temp
 
 %RUN TRANSIENT FEM SOLVER
-global c_results
 [c_results, Data] = TransientFEMSolver_Part2(Data);
 
+% PLOT DISTRIBUTION OVER TIME
+figure(2)
+hold on
+grid on
+aa = find(Data.time >= 0, 1);
+a = find(Data.time >= 0.05, 1);
+b = find(Data.time >= 0.2, 1);
+c = find(Data.time >= 0.5, 1);
+d = find(Data.time >= 1, 1);
+e = find(Data.time >= 2, 1);
+f = find(Data.time >= 5, 1);
+g = find(Data.time >= 50, 1);
+plot(Data.x(1:2:end), c_results(aa,1:2:end));
+plot(Data.x(1:2:end), c_results(a,1:2:end));
+plot(Data.x(1:2:end), c_results(b,1:2:end));
+plot(Data.x(1:2:end), c_results(c,1:2:end));
+plot(Data.x(1:2:end), c_results(d,1:2:end));
+plot(Data.x(1:2:end), c_results(e,1:2:end));
+plot(Data.x(1:2:end), c_results(f,1:2:end));
+plot(Data.x(1:2:end), c_results(g,1:2:end));
+ylabel('Tempurature, K')
+xlabel('Distance through skin, mm')
+legend(['time = ' num2str(Data.time(a)) 's'], ['time = ' num2str(Data.time(b)) 's'], ['time = ' num2str(Data.time(c)) 's'], ['time = ' num2str(Data.time(d)) 's'], ['time = ' num2str(Data.time(e)) 's'], ['time = ' num2str(Data.time(f)) 's'], ['time = ' num2str(Data.time(g)) 's'])
 % DETERNIME IF BURNING OCCURS/WHEN
 [Gamma, BurningStart]= TissueDamage(Data, Data.TempE, Data.time);
 
