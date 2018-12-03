@@ -4,10 +4,11 @@ tol = 1e-14;
 lambda = 1; % scalar coefficient 
 eID=1; %element ID
 msh = OneDimLinearMeshGen(0,1,10);
+GN = 3;
 
-elemat = LocalElementMat_Reaction(lambda,eID,msh); 
+elemat = LocalElementMat_Reaction(lambda,eID,msh, GN); 
 
-assert(abs(elemat(1,2) - elemat(2,1)) <= tol)
+assert(issymmetric(elemat) == 1)
 
 %% Test 2: test 2 different elements of the same size produce same matrix
 % % Test that for two elements of an equispaced mesh, as described in the
@@ -16,12 +17,13 @@ tol = 1e-14;
 lambda = 1; % scalar coefficient 
 eID=1; %element ID
 msh = OneDimLinearMeshGen(0,1,10);
+GN = 3;
 
-elemat1 = LocalElementMat_Reaction(lambda,eID,msh);
+elemat1 = LocalElementMat_Reaction(lambda,eID,msh, GN);
 
 eID=2; %element ID
 
-elemat2 = LocalElementMat_Reaction(lambda,eID,msh);
+elemat2 = LocalElementMat_Reaction(lambda,eID,msh, GN);
 
 diff = elemat1 - elemat2;
 diffnorm = sum(sum(diff.*diff));
@@ -34,22 +36,11 @@ tol = 1e-14;
 eID=1; %element ID
 lambda = 1; % scalar coefficient 
 msh = OneDimLinearMeshGen(0,1,3);
+GN = 3;
 
-elemat1 = LocalElementMat_Reaction(lambda,eID,msh);
+elemat1 = LocalElementMat_Reaction(lambda,eID,msh, GN);
 
-elemat2 = [ 1/9 1/18; 1/18 1/9];
+elemat2 = [ 2/45 1/45 -1/90 ; 1/45 8/45 1/45; -1/90 1/45 2/45];
 diff = elemat1 - elemat2; %calculate the difference between the two matrices
 diffnorm = sum(sum(diff.*diff)); %calculates the total squared error between the matrices
 assert(abs(diffnorm) <= tol)
-
-%% Test 4: Test that the elements of the matrix are of the correct magnitude in relating to eachother.
-% test that elements 1 and 4 are double that of elements 2 and 3.
-tol = 1e-14;
-eID=1; %element ID
-lambda = 1; % scalar coefficient 
-msh = OneDimLinearMeshGen(0,1,3);
-
-elemat = LocalElementMat_Reaction(lambda,eID,msh);
-
-assert(elemat(1) == 2*elemat(3))
-assert(elemat(4) == 2*elemat(2))
