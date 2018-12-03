@@ -80,7 +80,8 @@ for k  = 2:Data.N+1
     
     %Use basis functions to find the tempurature at point E
     XiPoint = interp1([msh.nvec(Before_E) msh.nvec(After_E)], [1 -1], E);
-    TempE(k) = TempBefore_E*EvalBasis(1,XiPoint)+TempMiddle_E*EvalBasis(2,XiPoint)+TempAfter_E*EvalBasis(3,XiPoint);
+    TempE(k) = TempBefore_E*EvalBasis(1,XiPoint)+TempMiddle_E*EvalBasis(2,XiPoint)...
+        +TempAfter_E*EvalBasis(3,XiPoint);
     
     % REINITIALISE MATRACIES
     SourceVec_next = zeros(2*Data.Ne+1, 1);
