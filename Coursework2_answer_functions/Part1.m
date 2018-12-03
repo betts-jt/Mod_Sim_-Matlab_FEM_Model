@@ -1,3 +1,6 @@
+% This script set up the problem and initial conditions to complete Part 1
+% of the modelling and simulation assignment 2. It then runs the solver and
+% plots the results agains to analytical solution.
 clear
 clc
 close all
@@ -51,7 +54,6 @@ plot(Data.x(1:2:end), c_results(1+(0.05/0.01),(1:2:end)), '+-')
 plot(Data.x(1:2:end), c_results(1+(0.1/0.01),(1:2:end)), '+-')
 plot(Data.x(1:2:end), c_results(1+(0.3/0.01),(1:2:end)), '+-')
 plot(Data.x(1:2:end), c_results((1+1/0.01),(1:2:end)), '+-')
-title('Numberical Tempurature Distributions')
 xlabel('x, mm')
 ylabel('Tepturature, K')
 
@@ -63,42 +65,28 @@ plot(Data.x(1:2:end), c1, 'k--')
 plot(Data.x(1:2:end), c2, 'k--')
 plot(Data.x(1:2:end), c3, 'k--')
 plot(Data.x(1:2:end), c4, 'k--')
-title('Analytical Tempurature Distribution')
 xlabel('x, mm')
 ylabel('Tepturature, K')
-legend('t=0.05','t=0.1','t=0.3','t=1', 'Analytical Solutions', 'Location', 'NorthWest')
+legend('t=0.05s','t=0.1s','t=0.3s','t=1s', 'Analytical Solutions', 'Location', 'NorthWest')
 
 %% Plot analytical solution vs numerical solution
 for i=1:Data.N+1
     c(i)  = TransientAnalyticSoln(0.8,time(i));
 end
-figure(3)
+figure(2)
 hold on
-plot(time, c_results(:,1+16), 'ro-')
-plot(time, c, 'b-')
-title('Numeric Vs Analytical')
+plot(time, c_results(:,1+16), 'r-')
+plot(time, c, 'b--')
 xlabel('t, s')
 ylabel('c(x,t)')
 legend('Numerical Solution', 'Analytical solution', 'Location' , 'SouthEast')
 
 %% Plot difference between numerical and analytical
-figure(4)
+figure(3)
 hold on
 plot(time,c-c_results(:,1+16)')
-title('Error Between Numerical and Analytical Solutions')
-plot([0 1], [0 0], 'k-')
 xlabel('t, s')
 ylabel('c(x,t)')
+grid on
 
 
-%% Plot Unstability of crank nicolson method compared to Euler
-%t=0.3
-%x=0.5
-timestep = [0.001:(0.25-0.001)/9:0.25];
-cActual = TransientAnalyticSoln(0.8,0.3);
-
-Data.Theta = 1;
-for i = 1:length(timestep)
-    Data.dt = timestep(i);
-   [c_E, ~] = TransientFEMSolver(Data);
-end
