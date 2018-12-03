@@ -1,4 +1,4 @@
-function [Gamma, BurningStart] = Part2_1b(SurfaceTemp, optimise, timeStep)
+function [Gamma, BurningStart] = Part2(SurfaceTemp, optimise, timeStep)
 % This function runs the code for part 1 fo the modilling and sinulation
 % assignment 2
 %   SurfaceTemp = initial condition on surface of skin
