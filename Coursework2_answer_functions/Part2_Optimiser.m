@@ -2,7 +2,7 @@ N = 10; % Numebr of loops to be done
 
 TempMax = 390; % Maximum tempurature to be tested initially
 TempMin = 310; % Minimum tempurature to be tested initially
-timeSteps = [0.5, 0.5, 0.05, 0.05]; % Array of timesteps to be tested. Can be any legnth
+timeSteps = [0.05, 0.005, 0.0005, 0.0005]; % Array of timesteps to be tested. Can be any legnth
 
 for k = 1:length(timeSteps)
     % Generate array of legnth N of tempuratures to be tried
@@ -16,7 +16,7 @@ for k = 1:length(timeSteps)
     
     %RUN THROUGH CURRENT RANGE OF START TEMPS
     parfor i = 1:N
-        [gamma(i), ~]=Part2_1b(SkinTemp(i), 1, timeSteps(k));
+        [gamma(i), ~]=Part2(SkinTemp(i), 1, timeSteps(k));
     end
     
     %SET UP VARIABLES FOR NEXT LOOP
