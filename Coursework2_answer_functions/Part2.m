@@ -10,7 +10,7 @@ PathAdd(); % Add the correct folders to the path to allow all code to run
 % GENERATE A STRUCTURE OF THE RELEVENT PROBLEM VARIABLES
 Data.xmin = 0; % Minimum vale of x for the elements
 Data.xmax = 0.01; % Maximum vale of x for the elements
-Data.Ne = 30; % Numeber of elements in the mesh
+Data.Ne = 100; % Numeber of elements in the mesh
 Data.dt = timeStep; % Timestep for transient responce
 Data.VariedParamaters = 1; % Value is either 1 if the equation parameters vary with x or 0 if they dont
 Data.GN = 3; % N value for gausian quadriture
@@ -55,7 +55,6 @@ d = find(Data.time >= 1, 1);
 e = find(Data.time >= 2, 1);
 f = find(Data.time >= 5, 1);
 g = find(Data.time >= 50, 1);
-plot(Data.x(1:2:end), c_results(aa,1:2:end));
 plot(Data.x(1:2:end), c_results(a,1:2:end));
 plot(Data.x(1:2:end), c_results(b,1:2:end));
 plot(Data.x(1:2:end), c_results(c,1:2:end));
